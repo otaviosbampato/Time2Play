@@ -1,4 +1,7 @@
-<img src="./src/assets/logo_green_background.png" width="400" height="126"/>
+<div align="center">
+  <img src="./src/assets/logo_green_background.png" width="300" height="95" />
+</div>
+
 
 # Introdução
 
