@@ -12,9 +12,9 @@ entre clientes que desejam praticar esportes e proprietários que desejam alugar
 
 O sistema permite que donos de quadras disponibilizem suas quadras para locação,
 e que clientes possam alugar essas quadras para uso. O sistema gerencia a disponibilidade
-das quadras, pagamentos e reservas, garantindo uma experiência completa para ambas as partes.
+das quadras e reservas, garantindo uma experiência completa para ambas as partes.
 
-O projeto é composto por X telas, possui y funcionalidades [...].
+O projeto é composto por x telas, possui y funcionalidades [...].
 
 ## Tecnologias
 
@@ -22,4 +22,4 @@ O projeto é composto por X telas, possui y funcionalidades [...].
 
 ## Autoria
 
-Projeto feito em 2024/2, pelos alunos [Frederico Maia](https://github.com/fredmaia), [Otávio Sbampato](https://github.com/otaviosbampato/), e [Mateus Milani](https://github.com/milanimateus).
+Projeto feito em 2024/2, por [Frederico Maia](https://github.com/fredmaia), [Otávio Sbampato](https://github.com/otaviosbampato/), e [Mateus Milani](https://github.com/milanimateus).
