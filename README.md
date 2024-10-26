@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./src/assets/logo_green_background.png" width="300" height="95" />
+  <img src="./frontend/src/assets/logo-README.png" width="400" />
 </div>
 
 
