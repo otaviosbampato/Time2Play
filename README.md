@@ -10,8 +10,8 @@ entre clientes que desejam praticar esportes e proprietários que desejam alugar
 
 ## Descrição do produto
 
-O sistema permite que donos de quadras disponibilizem suas quadras para locação,
-e que clientes possam alugar essas quadras para uso. O sistema gerencia a disponibilidade
+O sistema permite que donos de quadras disponibilizem-as para locação,
+e que clientes possam alugá-las para uso. O sistema gerencia a disponibilidade
 das quadras e reservas, garantindo uma experiência completa para ambas as partes.
 
 O projeto é composto por x telas, possui y funcionalidades [...].
