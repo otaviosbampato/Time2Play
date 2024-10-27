@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import "./Welcome.css";
 
@@ -35,30 +36,33 @@ function Welcome() {
 
             <div className="metadeEsquerda">
                 <img src="src/assets/logo1.png" className="logo" />
-                <div style={{ display: "flex", justifySelf: "center", flexDirection: 'column', marginTop: '2%' }}>
+                <div style={{ display: "flex", justifySelf: "center", flexDirection: 'column', marginTop: '4%' }}>
                     <h1 className="title">Procurando uma quadra?</h1>
                     <h2 className="sub-title">Achou!</h2>
                 </div>
 
                 <div className="formContainer">
+
                     <div className='formsDiv'>
                         <label className='formsTitle' htmlFor="">email</label>
                         <input className='input' type="text" />
 
                         <label className='formsTitle' htmlFor="">senha</label>
-                        <div style={{ position: 'relative' }}>
+
+                        <div className='boxSenhaInput'>
                             <input
-                                className='input'
+                                className='inputSenha'
                                 type={showPassword ? "text" : "password"}
                             />
                             <button
                                 type="button"
                                 onClick={togglePasswordVisibility}
-                                style={{ position: 'absolute', right: '10px', top: '10px', background: 'none', border: 'none', cursor: 'pointer' }}
+                                className='mostrarSenha'
                             >
-                                {showPassword ? "Ocultar" : "Mostrar"}
+                                {showPassword ? <FiEye /> : <FiEyeOff />}
                             </button>
                         </div>
+
                     </div>
 
                     <div className='formsDiv'>
@@ -81,6 +85,10 @@ function Welcome() {
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20, justifyContent: 'space-between' }}>
                             <button className="formsButton" type="submit">Login</button>
                             <button className="formsButton formsButtonRegistrar" type="submit">Registrar</button>
+                        </div>
+                        <div className='boxEntrarGoogle'> {/*lógica aqui tá meio mal. ver Welcome.css*/}
+                            <button className='formsButton googleButton' type="submit">Continuar com Google</button>
+                            <img src='src/assets/google.png' className='googleLogo'/>
                         </div>
                     </div>
 
