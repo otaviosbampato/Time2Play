@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import "./Welcome.css";
@@ -87,8 +87,10 @@ function Welcome() {
                             <button className="formsButton formsButtonRegistrar" type="submit">Registrar</button>
                         </div>
                         <div className='boxEntrarGoogle'> {/*lógica aqui tá meio mal. ver Welcome.css*/}
-                            <button className='formsButton googleButton' type="submit">Continuar com Google</button>
-                            <img src='src/assets/google.png' className='googleLogo'/>
+                            <button className='formsButton googleButton' type="submit">
+                                <img src='src/assets/google.png' className='googleLogo'/>
+                                Continuar com Google
+                            </button>
                         </div>
                     </div>
 
