@@ -3,9 +3,17 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import "./Welcome.css";
 
+import { useNavigate } from 'react-router-dom';
+
 function Welcome() {
 
-    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [isChecked, setIsChecked] = useState<boolean>(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isModalOpen2, setIsModalOpen2] = useState<boolean>(false);
+    const [isModalOpen3, setIsModalOpen3] = useState<boolean>(false);
 
     const images = [
         "src/assets/futebol.jpg",
@@ -36,7 +44,7 @@ function Welcome() {
 
             <div className="metadeEsquerda">
                 <img src="src/assets/logo1.png" className="logo" />
-                <div style={{ display: "flex", justifySelf: "center", flexDirection: 'column', marginTop: '4%' }}>
+                <div style={{ display: "flex", justifySelf: "center", flexDirection: 'column', marginTop: '3%' }}>
                     <h1 className="title">Procurando uma quadra?</h1>
                     <h2 className="sub-title">Achou!</h2>
                 </div>
@@ -71,11 +79,22 @@ function Welcome() {
                             display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20, justifyContent: 'space-between',
                             paddingTop: '3%', paddingBottom: '3%'
                         }}>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                                <input type="radio" />
-                                <p className='manterLogado'>manter logado</p>
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5, cursor: 'pointer', transition: 'transform 0.2s ease', transform: isChecked ? 'scale(1.05)' : 'scale(1)', }} onClick={() => setIsChecked(!isChecked)}>
+                                <div>
+                                    <input type="radio"style={{ 
+                                        accentColor: '#01362a', 
+                                        transition: 'transform 0.2s ease, background-color 0.2s ease', // Smooth animation
+                                        transform: isChecked ? 'scale(1.2)' : 'scale(1)', // Scale-up effect
+                                    }} 
+                                    checked={isChecked} onChange={() => setIsChecked(!isChecked)}
+                                    
+                                    />
+                                </div>
+                                <div>
+                                    <p className='manterLogado'>manter logado</p>
+                                </div>
                             </div>
-                            <button className="esqueceuSuaSenha" type="submit">esqueceu sua senha?</button>
+                            <button className="esqueceuSuaSenha" type="submit" onClick={() => setIsModalOpen(true)}>esqueceu sua senha?</button>
                         </div>
 
                     </div>
@@ -84,7 +103,7 @@ function Welcome() {
                     <div className='formsDiv'>
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20, justifyContent: 'space-between' }}>
                             <button className="formsButton" type="submit">Login</button>
-                            <button className="formsButton formsButtonRegistrar" type="submit">Registrar</button>
+                            <button className="formsButton formsButtonRegistrar" type="submit" onClick={() => navigate("/signUp")}>Registrar</button>
                         </div>
                         <div className='boxEntrarGoogle'> {/*lógica aqui tá meio mal. ver Welcome.css*/}
                             <button className='formsButton googleButton' type="submit">
@@ -120,7 +139,74 @@ function Welcome() {
                 ></div>
             </div>
 
+            {isModalOpen && (
+            <div className="modal-overlay">
+                <div className="modal">
+                    <h2 className="modal-title">Recuperação de Senha</h2>
+                    <div className='modal-input-container'>
+                        <p className='modal-text'>Digite seu e-mail</p>
+                        <input
+                            type="email"
+                            className="modal-input"
+                        />
+                    </div>
+                    <div className='modal-button-container'>
+                        <button className="modal-button" onClick={() => {
+                            setIsModalOpen2(true) 
+                            setIsModalOpen(false)
+                        }}> Enviar </button>
+                        <button className="modal-close-button" onClick={() => setIsModalOpen(false)}>Cancelar</button>
+                    </div>
+                </div>
+            </div>
+            )}
 
+            
+            {isModalOpen2 && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h2 className="modal-title">Verificação!</h2>
+                        <div className='modal-input-container'>
+                            <p className='modal-text'>Digite o token no seu e-mail</p>
+                            <input
+                                type="email"
+                                className="modal-input"
+                            />
+                        </div>
+                        <div className='modal-button-container'>
+                        <button className="modal-button" onClick={() => {
+                            setIsModalOpen3(true) 
+                            setIsModalOpen2(false)
+                        }}> Próximo </button>
+                            <button className="modal-close-button" onClick={() => setIsModalOpen2(false)}>Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isModalOpen3 && (
+                <div className="modal-overlay">
+                    <div className="modal-larger">
+                        <h2 className="modal-title">Troque sua senha!</h2>
+                        <div className='modal-input-container'>
+                            <p className='modal-text'>Digite sua nova senha</p>
+                            <input
+                                type="password"
+                                className="modal-input"
+                            />
+                            <p className='modal-text'>Confirme sua senha</p>
+                            <input
+                                type="password"
+                                className="modal-input"
+                            />
+                        </div>
+                        <div className='modal-button-container'>
+                            <button className="modal-button" onClick={() => setIsModalOpen3(false)}> Confirmar </button>
+                            <button className="modal-close-button" onClick={() => setIsModalOpen3(false)}>Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div >
     )
 }
