@@ -5,7 +5,7 @@ import "./App.css"
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-import Welcome from "./pages/Welcome";
+import Welcome from "./pages/Unsigned/Welcome";
 
 function App() {
 
@@ -15,7 +15,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Welcome />}></Route>
-
+  
 
 
           {/* <Route path="/*" element={<NotFound />}></Route> */}
