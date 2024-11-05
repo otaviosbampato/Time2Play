@@ -43,7 +43,7 @@ function Welcome() {
         <div className="background">
 
             <div className="metadeEsquerda">
-                <img src="src/assets/logo1.png" className="logo" />
+                <img src="src/assets/logo-README.png" className="logo" />
                 <div style={{ display: "flex", justifySelf: "center", flexDirection: 'column', marginTop: '3%' }}>
                     <h1 className="title">Procurando uma quadra?</h1>
                     <h2 className="sub-title">Achou!</h2>
