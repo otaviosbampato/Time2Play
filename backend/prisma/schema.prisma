@@ -1,0 +1,70 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  idCliente Int       @id @default(autoincrement())
+  email     String    @unique
+  nome      String
+  senha     String
+  reservas  Reserva[]
+  reviews   Review[]
+}
+
+model Proprietario {
+  idProprietario Int      @id @default(autoincrement())
+  email          String   @unique
+  nome           String
+  senha          String
+  quadras        Quadra[]
+}
+
+model Quadra {
+  idQuadra       Int          @id @default(autoincrement())
+  nomeQuadra     String
+  precoHora      Float
+  localizacao    String
+  fotos          String[]
+  reviews        Review[]
+  proprietario   Proprietario @relation(fields: [proprietarioId], references: [idProprietario])
+  proprietarioId Int
+}
+
+// cliente só cria reserva mediante transação.
+// proprietário só recebe o valor após 24h do cliente ter usado a quadra
+// (é o tempo de reclamação que o cliente possui).
+model Reserva {
+  idReserva   Int       @id @default(autoincrement())
+  data        DateTime  @unique @default(now())
+  cliente     Cliente   @relation(fields: [clienteId], references: [idCliente])
+  clienteId   Int       @unique // cpa é merda, meti de maluco
+  transacao   Transacao @relation(fields: [transacaoId], references: [idTransacao])
+  transacaoId Int       @unique
+}
+
+model Transacao {
+  idTransacao     Int      @id @default(autoincrement())
+  valor           Float
+  status          String // concluído, aguardando pagamento, cancelado etc.
+  metodoPagamento String
+  data            DateTime @default(now())
+  reserva         Reserva?
+}
+
+//cliente só deve poder fazer review se já reservou a quadra.
+model Review {
+  idReview   Int      @id @default(autoincrement())
+  nota       Float // intervalo de 0-5
+  titulo     String
+  comentario String
+  data       DateTime @default(now())
+  quadra     Quadra   @relation(fields: [quadraId], references: [idQuadra])
+  quadraId   Int      @unique
+  cliente    Cliente  @relation(fields: [clienteId], references: [idCliente])
+  clienteId  Int      @unique
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
