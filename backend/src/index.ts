@@ -1,16 +1,16 @@
-import express, {Request} from 'express';
-import dotenv from 'dotenv';
+import express, { Request, Response, RequestHandler } from "express";
+import dotenv from "dotenv";
+
+import userRoutes from "./routes/cliente.route";
 
 dotenv.config();
 
 const PORT = 3000;
-
 const app = express();
 
-app.get('/', (req, res) => {
-    res.status(200).send("tudo certo");
-});
+app.use(express.json());
+app.use(userRoutes);
 
 app.listen(PORT, () => {
-    console.log("funfou");
+  console.log(`servidor na porta ${PORT}`);
 });
