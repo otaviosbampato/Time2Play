@@ -16,16 +16,15 @@ das quadras e reservas, garantindo uma experiência completa e satisfatória par
 
 ### Prototipação do projeto
 
-
-<img src="./frontend/src/assets/figma.png" width="500" style="display: block; margin-bottom: 20px;"/>
-<img src="./frontend/src/assets/diagramaDeRotas.png" width="500" style="display: block;"/>
-<img src="./frontend/src/assets/figmaHome.png" width="500" style="display: block;"/>
+<img src="./frontend/src/assets/figma.png" width="200" style="display: block; margin-bottom: 20px;"/>
+<img src="./frontend/src/assets/diagramaDeRotas.png" width="200" style="display: block;"/>
+<img src="./frontend/src/assets/figmaHome.png" width="200" style="display: block;"/>
 
 > Prototipação realizada com Figma.
 
 ### Estágio inicial de desenvolvimento
 
-<img src="./frontend/src/assets/estagioInicial.png" width="500" style="display: block;"/>
+<img src="./frontend/src/assets/estagioInicial.png" width="200" style="display: block;"/>
 
 # Tecnologias
 
@@ -33,9 +32,28 @@ das quadras e reservas, garantindo uma experiência completa e satisfatória par
 
 Desenvolvido em Typescript + React.
 
+- Como rodar o projeto após clonar
+```
+npm install
+npm run dev
+```
+
 ### Backend
 
-Desenvolvido em Express.js (predição).
+Desenvolvido em Express, Prisma Typescript e Posgres.
+
+- Como rodar o projeto após clonar
+```
+npm install
+npm run dev
+```
+
+- Comandos do prisma
+```bash
+npx prisma generate
+npx prisma migrate dev
+npx prisma studio
+```
 
 # Autoria
 
