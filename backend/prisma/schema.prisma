@@ -36,9 +36,9 @@ model Quadra {
 // (é o tempo de reclamação que o cliente possui).
 model Reserva {
   idReserva   Int       @id @default(autoincrement())
-  data        DateTime  @unique @default(now())
+  data        DateTime  @default(now())
   cliente     Cliente   @relation(fields: [clienteId], references: [idCliente])
-  clienteId   Int       @unique // cpa é merda, meti de maluco
+  clienteId   Int
   transacao   Transacao @relation(fields: [transacaoId], references: [idTransacao])
   transacaoId Int       @unique
 }
@@ -60,9 +60,15 @@ model Review {
   comentario String
   data       DateTime @default(now())
   quadra     Quadra   @relation(fields: [quadraId], references: [idQuadra])
-  quadraId   Int      @unique
+  quadraId   Int
   cliente    Cliente  @relation(fields: [clienteId], references: [idCliente])
-  clienteId  Int      @unique
+  clienteId  Int
+}
+
+enum Status {
+  CONCLUIDO
+  AGUARDANDO
+  CANCELADO
 }
 
 generator client {
