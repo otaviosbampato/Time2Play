@@ -14,41 +14,37 @@ O sistema permite que donos de quadras as disponibilizem para locação,
 e que clientes possam alugá-las para uso. Time2Play gerencia a disponibilidade
 das quadras e reservas, garantindo uma experiência completa e satisfatória para as partes.
 
-### Prototipação do projeto
+## Prototipação do projeto
 
-<img src="./frontend/src/assets/figma.png" width="200" style="display: block; margin-bottom: 20px;"/>
-<img src="./frontend/src/assets/diagramaDeRotas.png" width="200" style="display: block;"/>
-<img src="./frontend/src/assets/figmaHome.png" width="200" style="display: block;"/>
+### Figma.
 
-> Prototipação realizada com Figma.
-
-### Estágio inicial de desenvolvimento
+## Estágio inicial de desenvolvimento
 
 <img src="./frontend/src/assets/estagioInicial.png" width="200" style="display: block;"/>
 
 # Tecnologias
 
-### Frontend
+## Frontend
 
 Desenvolvido em Typescript + React.
 
-- Como rodar o projeto após clonar
+### Como rodar o projeto
 ```
 npm install
 npm run dev
 ```
 
-### Backend
+## Backend
 
 Desenvolvido em Express, Prisma Typescript e Posgres.
 
-- Como rodar o projeto após clonar
+### Como rodar o projeto
 ```
 npm install
 npm run dev
 ```
 
-- Comandos do prisma
+### Comandos do prisma
 ```bash
 npx prisma generate
 npx prisma migrate dev
