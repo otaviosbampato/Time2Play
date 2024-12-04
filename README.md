@@ -26,7 +26,9 @@ das quadras e reservas, garantindo uma experiência completa e satisfatória par
 
 ## Frontend
 
-Desenvolvido em Typescript + React.
+Desenvolvido em 
+- Typescript (v5.6.2)
+- React (v18.3.1).
 
 ### Como rodar o projeto
 ```
@@ -36,7 +38,11 @@ npm run dev
 
 ## Backend
 
-Desenvolvido em Express, Prisma Typescript e Posgres.
+Desenvolvido em 
+- Express (v4.21.1)
+- Prisma (v6.0.0)
+- Typescript (v5.6.3)
+- PostgreSQL (v17.2)
 
 ### Como rodar o projeto
 ```
