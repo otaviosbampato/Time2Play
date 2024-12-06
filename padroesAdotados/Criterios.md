@@ -16,4 +16,4 @@ Algumas regras para a especificação de requisitos de software são:
 - Ser preciso: O documento deve ser simples de compreender. 
 - Ser mensurável: Os requisitos devem ser mensuráveis para que o produto final possa ser validado e certificado. 
 - Ser claro, atingível e verificável: O requisito deve comunicar algo que é necessário, atingível e verificável. 
-- Evitar palavras subjetivas: Palavras como "fácil" e "rápido" podem trazer problemas para a verificaçã
+- Evitar palavras subjetivas: Palavras como "fácil" e "rápido" podem trazer problemas para a verificação.
