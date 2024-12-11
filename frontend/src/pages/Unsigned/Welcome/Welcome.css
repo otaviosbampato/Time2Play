@@ -12,7 +12,7 @@
   width: auto;
   display: flex;
   justify-self: center;
-  margin-top: 3%;
+  margin-top: 3% !important;
 }
 
 .metadeEsquerda {
@@ -24,7 +24,7 @@
 .title {
   color: #fff;
   font-family: "Baloo Bhaijaan 2", sans-serif;
-  font-size: 44px;
+  font-size: 34px;
   display: flex;
 }
 
@@ -113,20 +113,25 @@
   position: relative;
   flex-direction: row;
   width: 100%;
+  align-items: center; /* Centraliza os elementos no eixo vertical */
 }
 
 .mostrarSenha {
   position: absolute;
   right: 10px;
-  top: 0.8em;
   border: none;
   background: none;
   padding: 0;
   cursor: pointer;
   outline: none;
-  font-size: 1.1em;
+  font-size: 1.2em;
   color: #666;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: transform 0.2s ease, opacity 0.2s ease;
+  height: 100%; 
 }
 
 .mostrarSenha:hover {
@@ -185,31 +190,6 @@
   transition: 0.3s;
 }
 
-.boxEntrarGoogle {
-  /* a lógica de tudo daqui pra baixo até googleLogo deve ser reavaliada, e, se possível, refeita. */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  position: relative;
-}
-
-.googleButton {
-  width: 100%;
-  background-color: white;
-  color: #01362a;
-  margin-top: 1em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.googleButton:hover {
-  color: white;
-  background-color: #135e4a;
-  transition: 0.3s;
-}
-
 .googleLogo {
   height: 2.5em;
 }
@@ -221,11 +201,6 @@
   transition: opacity 0.5s ease-in-out;
   position: relative;
 }
-
-
-
-
-
 
 
 
@@ -354,8 +329,17 @@
 
 
 
-@media (max-height: 600px) {
+@media (max-height: 550px) {
   .modal {
     height: 80%;
   }
+
+  .metadeDireita {
+    flex: 0;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.5s ease-in-out;
+    position: relative;
+  }
+  
 }
