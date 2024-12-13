@@ -27,6 +27,21 @@ Desenvolvido em
 - Typescript (v5.6.2)
 - React (v18.3.1).
 
+### Estruturação de pastas
+
+```
+frontend/
+│
+├── uploads/
+└── src/
+    |── pages/
+    ├── assets/
+    └── shared
+        ├──components
+        ├──contexts
+        └──utils
+```
+
 ### Como rodar o projeto
 ```
 npm install
@@ -41,6 +56,25 @@ Desenvolvido em
 - Typescript (v5.6.3)
 - PostgreSQL (v17.2)
 
+### Estruturação de pastas
+
+```
+backend/
+│
+├── uploads/
+└── src/
+    │
+    ├── app/
+    |   ├──controllers
+    |   ├──middlewares
+    |   └──schemas
+    |── prisma/
+    ├── database/
+    └── modules/
+        ├── Mail
+        └── Cloudinary
+```
+
 ### Como rodar o projeto
 ```
 npm install
@@ -53,6 +87,12 @@ npx prisma generate
 npx prisma migrate dev
 npx prisma studio
 ```
+
+
+### Regras de git
+
+- Regras de commit: Os commits devem ser feitos de forma a dizer, inicialmente, qual é o propósito do commit (feat, docs, fix, test...)
+- Uso de branches: As branches são: develop e main. Após uma issue ser resolvida na develop, deve-se fazer o merge na main
 
 # Autoria
 
