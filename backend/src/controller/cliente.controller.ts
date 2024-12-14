@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import bcryptjs from "bcryptjs";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../db/prisma"
 
 export const registrar = async (req: Request, res: Response) => {
   try {
