@@ -17,6 +17,8 @@ model Proprietario {
   email          String   @unique
   nome           String
   senha          String
+  cpfCnpj        String   @unique
+  cidade         String
   quadras        Quadra[]
 }
 
