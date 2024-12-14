@@ -1,18 +1,24 @@
 import { Request, Response } from "express";
+import prisma from "../db/prisma";
 import bcryptjs from "bcryptjs";
-import prisma from "../db/prisma"
 
-export const registrar = async (req: Request, res: Response) => {
+export const registrarProprietario = async (req: Request, res: Response) => {
   try {
-    const { email, nome, senha } = req.body;
+    const { email, nome, senha, cpfCnpj, cidade } = req.body;
 
-    if (!email || !nome || !senha) {
+    if (!email || !nome || !senha || !cpfCnpj || !cidade) {
       return res.status(400).send("Todos os campos devem ser preenchidos.");
     }
 
-    const user = await prisma.cliente.findUnique({ where: { email } });
+    const userByEmail = await prisma.proprietario.findUnique({
+      where: { email },
+    });
 
-    if (user) {
+    const userByCpfCnpj = await prisma.proprietario.findUnique({
+      where: { cpfCnpj },
+    });
+
+    if (userByEmail || userByCpfCnpj) {
       return res
         .status(400)
         .json({ error: "Usuário com esse e-mail já existe!" });
@@ -21,21 +27,23 @@ export const registrar = async (req: Request, res: Response) => {
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(senha, salt);
 
-    const cliente = await prisma.cliente.create({
+    const proprietario = await prisma.proprietario.create({
       data: {
         email,
         nome,
         senha: hashedPassword,
+        cpfCnpj,
+        cidade
       },
     });
 
-    if (!cliente) {
+    if (!proprietario) {
       res.status(400).json({ error: "Dados de usuário inválidos" });
     }
 
     return res.status(201).send({
-      message: "Cliente cadastrado com sucesso.",
-      cliente: cliente,
+      message: "Proprietário cadastrado com sucesso.",
+      proprietario: proprietario,
     });
   } catch (error: any) {
     res.status(500).json({ error: "Internal Server Error" });
