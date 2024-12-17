@@ -90,7 +90,7 @@ npm run dev
 
 > [!CAUTION]
  > Esses comandos devem ser executados **2 vezes**, uma dentro do diretório "backend", e outra dentro do diretório "frontend".
-
+ 
 # Autoria
 
 Projeto feito em 2024/2, por [Frederico Maia](https://github.com/fredmaia), [Otávio Sbampato](https://github.com/otaviosbampato/), e [Mateus Milani](https://github.com/milanimateus).
