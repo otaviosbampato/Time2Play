@@ -1,0 +1,128 @@
+* {
+  box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
+}
+
+.adicionar-quadra {
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  background-color: #f9f9f9;
+}
+
+.container {
+  max-width: 70%;
+  height: fit-content;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h2 {
+  color: #333;
+  margin-left: 15%;
+  padding: 20px;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+form {
+  width: 100%;
+}
+
+.form-line {
+  display: flex;
+  gap: 50px;
+  margin-bottom: 25px;
+  /* background-color: #1e7f47; */
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border: none;
+  border: 1px solid #ccc;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+p {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+input[type="file"] {
+  display: block;
+  margin-top: 10px;
+}
+
+.submit-button {
+  background-color: #092b22;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #1e7f47;
+}
+
+@media (max-width: 680px) {
+  .form-line {
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    margin-left: 0%;
+    text-align: center;
+    /* padding: 0px; */
+  }
+}
