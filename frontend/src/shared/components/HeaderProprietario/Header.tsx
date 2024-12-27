@@ -39,12 +39,12 @@ export default function Header({ currentTab }: HeaderProps) {
         </Link>
       </div>
       <div className="header-icons">
-        <div className="header-white-circle">
+        <Link className="header-white-circle" to="/ConfiguracoesPerfilProprietario">
           <img src={engrenagem} className="header-icon" alt="Settings" />
-        </div>
-        <div className="header-green-circle">
+        </Link>
+        <Link className="header-green-circle" to="/">
           <img src={logout} className="header-icon" alt="Logout" />
-        </div>
+        </Link>
       </div>
     </div>
   );
