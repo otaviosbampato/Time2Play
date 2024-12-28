@@ -1,8 +1,4 @@
-* {
-  box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
-}
-
-.adicionar-quadra {
+.adicionarQuadra {
   font-family: "Baloo Bhaijaan 2", sans-serif;
   background-color: #f9f9f9;
 }
@@ -15,48 +11,43 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-
   display: flex;
   justify-content: center;
 }
 
-form {
+.form {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
 }
 
-h2 {
+.title {
   color: #333;
   margin-left: 15%;
   padding: 20px;
 }
 
-.form-group {
+.formGroup {
   width: 100%;
   margin-bottom: 20px;
 }
 
-form {
-  width: 100%;
-}
-
-.form-line {
+.formLine {
   display: flex;
   gap: 50px;
   margin-bottom: 25px;
 }
 
-label {
+.label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
   color: #555;
 }
 
-input[type="text"],
-select,
-textarea {
+.input,
+.select,
+.textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -65,48 +56,34 @@ textarea {
   font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
-input[type="text"]:focus,
-select:focus,
-textarea:focus {
+.input:focus,
+.select:focus,
+.textarea:focus {
   outline: none;
-  border: none;
   border: 1px solid #ccc;
   font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
-textarea {
+.textarea {
   resize: vertical;
   min-height: 100px;
 }
 
-input[type="range"] {
+.rangeInput {
   width: 100%;
 }
 
-p {
+.priceText {
   margin-top: 10px;
   font-weight: bold;
   color: #333;
 }
 
-input[type="file"] {
-  display: block;
-  margin-top: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  background-color: #1e7f47;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-input[type="file"] {
+.fileInput {
   display: none;
 }
 
-.upload-label {
+.uploadLabel {
   display: inline-block;
   padding: 10px 20px;
   background-color: #1e7f47;
@@ -118,77 +95,30 @@ input[type="file"] {
   transition: background-color 0.3s;
 }
 
-.upload-button-container {
+.uploadButtonContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
 }
 
-.icon-wrapper {
+.iconWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.upload-label:hover {
+.uploadLabel:hover {
   background-color: #092b22;
 }
 
-.upload-label i {
-  margin-right: 8px;
-  font-size: 18px;
-}
-
-.carousel-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.carousel-image {
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-
-.carousel-img {
-  display: block;
-  width: 150px;
-  height: 150px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.remove-image {
-  position: absolute;
-  right: 30px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border: none;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: bold;
-  color: #333;
-  transition: background-color 0.3s;
-}
-
-.remove-image:hover {
-  background-color: rgba(255, 0, 0, 0.8);
-  color: white;
-}
-
-.submit-button-container {
+.submitButtonContainer {
   display: flex;
   padding: 60px;
   justify-content: center;
 }
 
-.submit-button {
+.submitButton {
   background-color: #092b22;
   color: white;
   border: none;
@@ -199,21 +129,22 @@ input[type="file"] {
   transition: background-color 0.3s;
 }
 
-.submit-button:hover {
+.submitButton:hover {
   background-color: #1e7f47;
 }
 
 @media (max-width: 680px) {
-  .form-line {
+  .formLine {
     flex-direction: column;
     gap: 0px;
   }
 
-  .form-group {
+  .formGroup {
     margin-bottom: 10px;
+    margin-left: -10px;
   }
 
-  h2 {
+  .title {
     margin-left: 0%;
     text-align: center;
   }

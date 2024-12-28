@@ -4,7 +4,7 @@ import Header from "../../../../shared/components/HeaderProprietario/Header";
 import CarrosselImagens from "../../../../shared/components/CarrosselImagens/CarrosselImagens";
 import uploadDeFoto from "../../../../assets/uploadDeFoto.png";
 
-import "./AdicionarQuadra.css";
+import styles from "./AdicionarQuadra.module.css";
 import "react-multi-carousel/lib/styles.css";
 
 const AdicionarQuadra: React.FC = () => {
@@ -37,17 +37,20 @@ const AdicionarQuadra: React.FC = () => {
   };
 
   return (
-    <div className="adicionar-quadra">
+    <div className={styles.adicionarQuadra}>
       <Header currentTab="adicionarQuadra" />
 
-      <h2>Adicione uma nova quadra:</h2>
+      <h2 className={styles.title}>Adicione uma nova quadra:</h2>
 
-      <div className="container">
-        <form onSubmit={handleSubmit}>
-          <div className="form-line">
-            <div className="form-group">
-              <label htmlFor="localizacao">Localização *</label>
+      <div className={styles.container}>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.formLine}>
+            <div className={styles.formGroup}>
+              <label className={styles.label} htmlFor="localizacao">
+                Localização *
+              </label>
               <input
+                className={styles.input}
                 type="text"
                 id="localizacao"
                 value={localizacao}
@@ -57,9 +60,12 @@ const AdicionarQuadra: React.FC = () => {
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="esporte">Esporte *</label>
+            <div className={styles.formGroup}>
+              <label className={styles.label} htmlFor="esporte">
+                Esporte *
+              </label>
               <select
+                className={styles.select}
                 id="esporte"
                 value={esporte}
                 onChange={(e) => setEsporte(e.target.value)}
@@ -76,10 +82,13 @@ const AdicionarQuadra: React.FC = () => {
             </div>
           </div>
 
-          <div className="form-line">
-            <div className="form-group">
-              <label htmlFor="descricao">Descrição *</label>
+          <div className={styles.formLine}>
+            <div className={styles.formGroup}>
+              <label className={styles.label} htmlFor="descricao">
+                Descrição *
+              </label>
               <textarea
+                className={styles.textarea}
                 id="descricao"
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value)}
@@ -88,9 +97,12 @@ const AdicionarQuadra: React.FC = () => {
               ></textarea>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="preco">Preço por hora *</label>
+            <div className={styles.formGroup}>
+              <label className={styles.label} htmlFor="preco">
+                Preço por hora *
+              </label>
               <input
+                className={styles.rangeInput}
                 type="range"
                 id="preco"
                 min={10}
@@ -99,14 +111,14 @@ const AdicionarQuadra: React.FC = () => {
                 value={preco}
                 onChange={(e) => setPreco(Number(e.target.value))}
               />
-              <p>R${preco},00 / hora</p>
+              <p className={styles.priceText}>R${preco},00 / hora</p>
             </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="imagem" className="upload-label">
-              <div className="upload-button-container">
-                <div className="icon-wrapper">
+          <div className={styles.formGroup}>
+            <label htmlFor="imagem" className={styles.uploadLabel}>
+              <div className={styles.uploadButtonContainer}>
+                <div className={styles.iconWrapper}>
                   <img src={uploadDeFoto} style={{ width: 20, height: 20 }} />
                 </div>
                 <div>Adicionar imagem</div>
@@ -114,6 +126,7 @@ const AdicionarQuadra: React.FC = () => {
             </label>
 
             <input
+              className={styles.fileInput}
               type="file"
               id="imagem"
               onChange={handleImageUpload}
@@ -124,8 +137,8 @@ const AdicionarQuadra: React.FC = () => {
 
           <CarrosselImagens images={imagens} onRemoveImage={removeImage} />
 
-          <div className="submit-button-container">
-            <button type="submit" className="submit-button">
+          <div className={styles.submitButtonContainer}>
+            <button type="submit" className={styles.submitButton}>
               Cadastrar quadra
             </button>
           </div>
