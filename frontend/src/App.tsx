@@ -7,6 +7,7 @@ import SignUp from "./pages/Unsigned/SignUp/SignUp.tsx";
 import AdicionarQuadra from "./pages/Signed/Proprietario/AdicionarQuadra/AdicionarQuadra.tsx";
 import ConfiguracoesPerfilProprietario from "./pages/Signed/Proprietario/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
 import MinhasQuadras from "./pages/Signed/Proprietario/MinhasQuadras/MinhasQuadras.tsx";
+import VerReservas from "./pages/Signed/Proprietario/VerReservas/VerReservas.tsx";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           {/* Rotas do proprietário */}
           <Route path="/adicionarQuadra" element={<AdicionarQuadra />}></Route>
           <Route path="/minhasQuadras" element={<MinhasQuadras />}></Route>
+          <Route path="/verReservas" element={<VerReservas/>}></Route>
           <Route path="/configuracoesPerfilProprietario" element={<ConfiguracoesPerfilProprietario />}></Route>
 
           {/* <Route path="/*" element={<NotFound />}></Route> */}
