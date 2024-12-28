@@ -1,5 +1,8 @@
+import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+
+import styles from "./CarrosselImagens.module.css"; // Importando as classes CSS
 
 interface ImageCarouselProps {
   images: File[];
@@ -33,7 +36,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
       arrows
       autoPlaySpeed={3000}
       centerMode={false}
-      containerClass="carousel-container"
+      containerClass={styles.carouselContainer} // Usando styles.className
       draggable
       focusOnSelect={false}
       infinite
@@ -46,13 +49,13 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
       swipeable
     >
       {images.map((imagem, index) => (
-        <div className="carousel-image" key={index}>
+        <div className={styles.carouselImage} key={index}> {/* Usando styles.className */}
           <img
             src={URL.createObjectURL(imagem)}
             alt={`Quadra ${index + 1}`}
-            className="carousel-img"
+            className={styles.carouselImg} // Usando styles.className
           />
-          <button className="remove-image" onClick={() => onRemoveImage(index)}>
+          <button className={styles.removeImage} onClick={() => onRemoveImage(index)}>
             &times;
           </button>
         </div>
