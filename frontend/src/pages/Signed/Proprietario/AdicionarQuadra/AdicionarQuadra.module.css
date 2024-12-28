@@ -16,8 +16,7 @@
 }
 
 .form {
-  width: 100%;
-  max-width: 800px;
+  width: 90%;
   margin: 0 auto;
 }
 
@@ -133,6 +132,11 @@
   background-color: #1e7f47;
 }
 
+
+.rangeInput {
+  accent-color: #0D4A3A;
+}
+
 @media (max-width: 680px) {
   .formLine {
     flex-direction: column;
@@ -149,3 +153,8 @@
     text-align: center;
   }
 }
+
+
+
+
+
