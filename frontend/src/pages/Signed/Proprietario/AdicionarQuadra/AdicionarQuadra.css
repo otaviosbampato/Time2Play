@@ -45,7 +45,6 @@ form {
   display: flex;
   gap: 50px;
   margin-bottom: 25px;
-  /* background-color: #1e7f47; */
 }
 
 label {
@@ -93,6 +92,100 @@ p {
 input[type="file"] {
   display: block;
   margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #1e7f47;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.upload-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #1e7f47;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  transition: background-color 0.3s;
+}
+
+.upload-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-label:hover {
+  background-color: #092b22;
+}
+
+.upload-label i {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.carousel-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-img {
+  display: block;
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.remove-image {
+  position: absolute;
+  right: 30px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  transition: background-color 0.3s;
+}
+
+.remove-image:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+}
+
+.submit-button-container {
+  display: flex;
+  padding: 60px;
+  justify-content: center;
 }
 
 .submit-button {
@@ -123,6 +216,5 @@ input[type="file"] {
   h2 {
     margin-left: 0%;
     text-align: center;
-    /* padding: 0px; */
   }
 }

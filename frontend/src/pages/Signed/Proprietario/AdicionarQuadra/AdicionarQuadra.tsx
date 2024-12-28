@@ -1,13 +1,29 @@
 import React, { useState } from "react";
+
 import Header from "../../../../shared/components/HeaderProprietario/Header";
+import CarrosselImagens from "../../../../shared/components/CarrosselImagens/CarrosselImagens";
+import uploadDeFoto from "../../../../assets/uploadDeFoto.png";
+
 import "./AdicionarQuadra.css";
+import "react-multi-carousel/lib/styles.css";
 
 const AdicionarQuadra: React.FC = () => {
   const [localizacao, setLocalizacao] = useState("");
   const [esporte, setEsporte] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [preco, setPreco] = useState(75); // Valor inicial
-  const [imagem, setImagem] = useState<File | null>(null);
+  const [preco, setPreco] = useState(75);
+  const [imagens, setImagens] = useState<File[]>([]);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      setImagens((prev) => [...prev, ...filesArray]);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setImagens((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,7 +32,6 @@ const AdicionarQuadra: React.FC = () => {
       esporte,
       descricao,
       preco,
-      imagem,
     });
     alert("Quadra adicionada com sucesso!");
   };
@@ -24,7 +39,9 @@ const AdicionarQuadra: React.FC = () => {
   return (
     <div className="adicionar-quadra">
       <Header currentTab="adicionarQuadra" />
+
       <h2>Adicione uma nova quadra:</h2>
+
       <div className="container">
         <form onSubmit={handleSubmit}>
           <div className="form-line">
@@ -54,6 +71,7 @@ const AdicionarQuadra: React.FC = () => {
                 <option value="futebol">Futebol</option>
                 <option value="basquete">Basquete</option>
                 <option value="vôlei">Vôlei</option>
+                <option value="tênis">Tênis</option>
               </select>
             </div>
           </div>
@@ -86,20 +104,31 @@ const AdicionarQuadra: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="imagem">Imagens da quadra *</label>
+            <label htmlFor="imagem" className="upload-label">
+              <div className="upload-button-container">
+                <div className="icon-wrapper">
+                  <img src={uploadDeFoto} style={{ width: 20, height: 20 }} />
+                </div>
+                <div>Adicionar imagem</div>
+              </div>
+            </label>
+
             <input
               type="file"
               id="imagem"
-              onChange={(e) =>
-                setImagem(e.target.files ? e.target.files[0] : null)
-              }
-              required
+              onChange={handleImageUpload}
+              multiple
+              accept="image/*"
             />
           </div>
 
-          <button type="submit" className="submit-button">
-            Criar
-          </button>
+          <CarrosselImagens images={imagens} onRemoveImage={removeImage} />
+
+          <div className="submit-button-container">
+            <button type="submit" className="submit-button">
+              Cadastrar quadra
+            </button>
+          </div>
         </form>
       </div>
     </div>
