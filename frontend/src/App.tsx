@@ -8,8 +8,18 @@ import AdicionarQuadra from "./pages/Signed/Proprietario/AdicionarQuadra/Adicion
 import ConfiguracoesPerfilProprietario from "./pages/Signed/Proprietario/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
 import MinhasQuadras from "./pages/Signed/Proprietario/MinhasQuadras/MinhasQuadras.tsx";
 import VerReservas from "./pages/Signed/Proprietario/VerReservas/VerReservas.tsx";
+import EditarQuadra from "./pages/Signed/Proprietario/EditarQuadra/EditarQuadra.tsx";
 
 function App() {
+
+  const initialQuadra = {
+    id: "1",
+    localizacao: "Rua dos Esportes, 123",
+    esporte: "futebol",
+    descricao: "Quadra com gramado sintético, ideal para futebol amador.",
+    preco: 100,
+    imagens: [],
+  };
 
   return (
     <>
@@ -21,6 +31,7 @@ function App() {
 
           {/* Rotas do proprietário */}
           <Route path="/adicionarQuadra" element={<AdicionarQuadra />}></Route>
+          <Route path="/editarQuadra" element={<EditarQuadra quadra={initialQuadra} />}></Route>
           <Route path="/minhasQuadras" element={<MinhasQuadras />}></Route>
           <Route path="/verReservas" element={<VerReservas/>}></Route>
           <Route path="/configuracoesPerfilProprietario" element={<ConfiguracoesPerfilProprietario />}></Route>
