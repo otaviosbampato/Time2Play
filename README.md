@@ -91,6 +91,15 @@ npm run dev
 > [!CAUTION]
  > Esses comandos devem ser executados **2 vezes**, uma dentro do diretório "backend", e outra dentro do diretório "frontend".
 
+### Regras de boas práticas
+
+1.  Adoção de um padrão de notação de código: utilizar o padrão camelCase para variáveis, métodos e funções. Utilizar PascalCase para classes.
+2. Documentação e comentários no código: comentar o código sempre que a lógica for complexa ou não óbvia.
+3. Seguir os princípios do SOLID: aplicar os princípios SOLID para modularidade e manutenibilidade.
+4. Aplicar o CLEAN CODE: código limpo e legível; dar nomes significativos às variáveis e funções/métodos; remover código não utilizado; funções/métodos curtos que focam em uma tarefa
+5. Testes automatizados: Desenvolver testes unitários e/ou de integração para garantir que cada parte do sistema funcione como esperado.
+6. Modularização do Código: dividir o código em módulos pequenos e reutilizáveis, tanto no frontend quanto no backend.
+
 # Autoria
 
 Projeto feito em 2024/2, por [Frederico Maia](https://github.com/fredmaia), [Otávio Sbampato](https://github.com/otaviosbampato/), e [Mateus Milani](https://github.com/milanimateus).

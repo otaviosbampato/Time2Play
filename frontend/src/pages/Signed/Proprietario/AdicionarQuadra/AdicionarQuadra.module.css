@@ -1,0 +1,160 @@
+.adicionarQuadra {
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  background-color: #f9f9f9;
+}
+
+.container {
+  max-width: 70%;
+  height: fit-content;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.title {
+  color: #333;
+  margin-left: 15%;
+  padding: 20px;
+}
+
+.formGroup {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.formLine {
+  display: flex;
+  gap: 50px;
+  margin-bottom: 25px;
+}
+
+.label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border: 1px solid #ccc;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.rangeInput {
+  width: 100%;
+}
+
+.priceText {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadLabel {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #1e7f47;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  transition: background-color 0.3s;
+}
+
+.uploadButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadLabel:hover {
+  background-color: #092b22;
+}
+
+.submitButtonContainer {
+  display: flex;
+  padding: 60px;
+  justify-content: center;
+}
+
+.submitButton {
+  background-color: #092b22;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+  background-color: #1e7f47;
+}
+
+
+.rangeInput {
+  accent-color: #0D4A3A;
+}
+
+@media (max-width: 680px) {
+  .formLine {
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .formGroup {
+    margin-bottom: 10px;
+    margin-left: -10px;
+  }
+
+  .title {
+    margin-left: 0%;
+    text-align: center;
+  }
+}
+
+
+
+
+
