@@ -43,6 +43,8 @@ export default function VerReservas() {
         <DateSelector onChange={(date: String) => setSelectedDate(date)} />
       </div>
 
+      <h2 style={{marginLeft : "10%", marginBottom : 30}}>terça-feira, 26/12/2024</h2>
+
       <div className={styles.reservasContainer}>
         {reservas.map((reserva) => (
           <CardReserva
