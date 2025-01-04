@@ -9,6 +9,7 @@ import ConfiguracoesPerfilProprietario from "./pages/Signed/Proprietario/Configu
 import MinhasQuadras from "./pages/Signed/Proprietario/MinhasQuadras/MinhasQuadras.tsx";
 import VerReservas from "./pages/Signed/Proprietario/VerReservas/VerReservas.tsx";
 import EditarQuadra from "./pages/Signed/Proprietario/EditarQuadra/EditarQuadra.tsx";
+import RecuperaSenha from "./pages/Unsigned/RecuperaSenha1/RecuperaSenha.tsx";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Welcome />}></Route>
+          <Route path="/recuperaSenha" element={<RecuperaSenha />}></Route>
           <Route path="/signUp" element={<SignUp />}></Route>
 
           {/* Rotas do proprietário */}
@@ -35,6 +37,7 @@ function App() {
           <Route path="/minhasQuadras" element={<MinhasQuadras />}></Route>
           <Route path="/verReservas" element={<VerReservas/>}></Route>
           <Route path="/configuracoesPerfilProprietario" element={<ConfiguracoesPerfilProprietario />}></Route>
+          
 
           {/* <Route path="/*" element={<NotFound />}></Route> */}
         </Routes>
