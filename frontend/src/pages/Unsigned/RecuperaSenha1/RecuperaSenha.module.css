@@ -68,7 +68,7 @@
   height: 5vw;
 }
 
-input {
+.input {
   display: flex;
   margin-top: 2vw;
   width: 75%;
@@ -84,14 +84,14 @@ input {
   box-sizing: border-box; /* pro tamanho nÃ£o ser afetado por font-size, padding, etc. */
 }
 
-input::placeholder {
+.input::placeholder {
   color: #0d4a3a;
   font-size: 16px;
   font-family: "Poppins", serif;
   font-weight: 600;
 }
 
-input:focus {
+.input:focus {
   background-color: #fff;
   box-shadow: 0 0 5px #0d4a3a;
 }
