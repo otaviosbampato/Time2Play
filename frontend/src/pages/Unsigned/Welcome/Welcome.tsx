@@ -58,17 +58,17 @@ function Welcome() {
                         <label className='formsTitle' htmlFor="">senha</label>
 
                         <div className='boxSenhaInput'>
-                            <input
-                                className='inputSenha'
-                                type={showPassword ? "text" : "password"}
-                            />
-                            <button
-                                type="button"
-                                onClick={togglePasswordVisibility}
-                                className='mostrarSenha'
-                            >
-                                {showPassword ? <FiEye /> : <FiEyeOff />}
-                            </button>
+                                <input
+                                    className='inputSenha input'
+                                    type={showPassword ? "text" : "password"}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={togglePasswordVisibility}
+                                    className='mostrarSenha'
+                                >
+                                    {showPassword ? <FiEye /> : <FiEyeOff />}
+                                </button>
                         </div>
 
                     </div>
@@ -104,12 +104,6 @@ function Welcome() {
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20, justifyContent: 'space-between' }}>
                             <button className="formsButton" type="submit">Login</button>
                             <button className="formsButton formsButtonRegistrar" type="submit" onClick={() => navigate("/signUp")}>Registrar</button>
-                        </div>
-                        <div className='boxEntrarGoogle'> {/*lógica aqui tá meio mal. ver Welcome.css*/}
-                            <button className='formsButton googleButton' type="submit">
-                                <img src='src/assets/google.png' className='googleLogo'/>
-                                Continuar com Google
-                            </button>
                         </div>
                     </div>
 

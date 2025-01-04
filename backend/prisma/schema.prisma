@@ -17,6 +17,8 @@ model Proprietario {
   email          String   @unique
   nome           String
   senha          String
+  cpfCnpj        String   @unique
+  cidade         String
   quadras        Quadra[]
 }
 
@@ -24,7 +26,9 @@ model Quadra {
   idQuadra       Int          @id @default(autoincrement())
   nomeQuadra     String
   precoHora      Float
-  localizacao    String
+  cidade         String
+  estado         String
+  endereco       String
   fotos          String[]
   reviews        Review[]
   proprietario   Proprietario @relation(fields: [proprietarioId], references: [idProprietario])

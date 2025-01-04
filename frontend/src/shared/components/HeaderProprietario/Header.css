@@ -1,0 +1,157 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #0d4a3a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-logo {
+  height: 40px;
+}
+
+.header-nav {
+  display: flex;
+  width: 100%;
+  margin-left: 2rem;
+}
+
+.header-content {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-links {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-link {
+  text-decoration: none;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  font-weight: 500;
+  color: #aaaaaa;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.header-link.active {
+  color: white;
+  border-bottom: 2px solid white;
+}
+
+.header-link:hover {
+  color: white;
+}
+
+.header-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-icon {
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+}
+
+.header-menu-toggle {
+  display: none;
+  font-size: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+.header-white-circle,
+.header-green-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 5px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.header-white-circle {
+  background-color: white;
+}
+
+.header-white-circle:hover {
+  background-color: #f0f0f0;
+}
+
+.header-green-circle {
+  background-color: #092b22;
+}
+
+.header-green-circle:hover {
+  background-color: #0a3c30;
+}
+
+@media (max-width: 680px) {
+  .header-container {
+    flex-direction: column;  /* Mudado de row para column */
+    padding: 0.5rem 1rem;
+  }
+
+  .header-logo-menu {  /* Nova classe para agrupar logo e botão */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-logo {
+    height: 30px;
+  }
+
+  .header-nav {
+    display: none;
+    width: 100%;
+    margin-left: 0;
+    background-color: #0d4a3a;
+    position: relative;
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 0; 
+  }
+
+  .header-nav.open {
+    display: block;
+  }
+
+  .header-links {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .header-link {
+    width: 100%;
+    padding: 0.75rem 0;
+  }
+
+  .header-icons {
+    padding-bottom: 1rem;
+  }
+
+  .header-menu-toggle {
+    display: block;
+  }
+}

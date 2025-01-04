@@ -1,0 +1,46 @@
+.cardReserva {
+  background-color: white;
+  width: 40%;
+  height: 10%;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.cardContent {
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+}
+
+.clienteNome {
+  font-weight: bold;
+  color: #333;
+}
+
+.horario {
+  color: #666;
+  margin-top: 8px;
+}
+
+.btnExcluir {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btnExcluir:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 680px) {
+  .cardReserva {
+    width: 70%;
+  }
+}

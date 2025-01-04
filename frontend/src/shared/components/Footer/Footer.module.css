@@ -1,0 +1,78 @@
+.footer {
+    position: absolute;       /* Fixes the footer to the bottom */
+    left: 0;               
+    bottom: 0;             
+    width: 100%;
+    height: 8%;        
+    background-color: #FFF; 
+    color: #484848;     
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.logo {
+    width: 7vw;
+    height: auto;
+    margin-left: 3vw;
+}
+
+.copyright {
+    width: 0.8vw;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.divLinks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* Center the links horizontally */
+    align-items: center; /* Ensure the links are centered vertically */
+    width: 30vw;
+    position: absolute; /* Position the divLinks absolute within the footer */
+    left: 48%; /* Position it in the center horizontally */
+    transform: translateX(-50%);
+}
+
+.padrao {
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-size: clamp(0.8rem, 2%, 1rem);
+}
+
+.dataEDireitos {
+    composes: padrao;
+    margin-left: 0.3vw;
+}
+
+.politicaPrivacidade {
+    composes: dataEDireitos;
+    font-weight: 600;
+}
+
+.cookies {
+    composes: politicaPrivacidade;
+}
+
+@media (max-width: 768px) {
+    .dataEDireitos {
+        font-size: 0.8rem;
+    }
+
+    .politicaPrivacidade,
+    .cookies {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dataEDireitos {
+        font-size: 0.7rem;
+    }
+
+    .politicaPrivacidade,
+    .cookies {
+        font-size: 0.9rem;
+    }
+}

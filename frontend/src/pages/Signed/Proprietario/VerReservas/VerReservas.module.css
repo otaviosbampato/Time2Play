@@ -1,0 +1,30 @@
+.container {
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  background-color: #f9f9f9;
+}
+
+.titulo {
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.reservasContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; 
+  padding-left: 20px;
+  padding-right: 20px;
+  justify-content: space-evenly; 
+}
+
+
+@media (max-width: 680px) {
+  .reservasContainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
