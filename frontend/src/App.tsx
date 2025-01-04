@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Welcome from "./pages/Unsigned/Welcome/Welcome.tsx";
 import SignUp from "./pages/Unsigned/SignUp/SignUp.tsx";
+import RecuperaSenha from "./pages/Unsigned/RecuperaSenha01/RecuperaSenha.tsx";
 import AdicionarQuadra from "./pages/Signed/Proprietario/AdicionarQuadra/AdicionarQuadra.tsx";
 import ConfiguracoesPerfilProprietario from "./pages/Signed/Proprietario/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
 import MinhasQuadras from "./pages/Signed/Proprietario/MinhasQuadras/MinhasQuadras.tsx";
@@ -27,6 +28,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Welcome />}></Route>
+          <Route path="/recuperaSenha" element={<RecuperaSenha />}></Route>
           <Route path="/signUp" element={<SignUp />}></Route>
 
           {/* Rotas do proprietário */}
