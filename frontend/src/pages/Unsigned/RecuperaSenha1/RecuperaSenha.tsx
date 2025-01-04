@@ -18,7 +18,7 @@ export default function RecuperaSenha() {
                     <div className={styles.circle}>
                         <img className={styles.lock} src="src/assets/lock.png"></img>
                     </div>
-                    <input type="email" placeholder="insira o seu email" />
+                    <input type="email" placeholder="insira o seu email" className={styles.input} />
                     <button className={styles.botaoContinuar}>
                         <p className={styles.continuar}>continuar</p>
                     </button>
