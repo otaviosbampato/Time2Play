@@ -2,14 +2,24 @@ import "./App.css"
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+// Rotas unsigned
 import Welcome from "./pages/Unsigned/Welcome/Welcome.tsx";
-import SignUp from "./pages/Unsigned/SignUp/SignUp.tsx";
+import RecuperaSenha from "./pages/Unsigned/RecuperaSenha1/RecuperaSenha.tsx";
+import RecuperaSenhaCodigo from "./pages/Unsigned/RecuperaSenha2/RecuperaSenha2.tsx";
+import RecuperaSenhaNovaSenha from "./pages/Unsigned/RecuperaSenha3/RecuperaSenha3.tsx";
+
+// Rotas proprietário
 import AdicionarQuadra from "./pages/Signed/Proprietario/AdicionarQuadra/AdicionarQuadra.tsx";
 import ConfiguracoesPerfilProprietario from "./pages/Signed/Proprietario/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
 import MinhasQuadras from "./pages/Signed/Proprietario/MinhasQuadras/MinhasQuadras.tsx";
 import VerReservas from "./pages/Signed/Proprietario/VerReservas/VerReservas.tsx";
 import EditarQuadra from "./pages/Signed/Proprietario/EditarQuadra/EditarQuadra.tsx";
-import RecuperaSenha from "./pages/Unsigned/RecuperaSenha1/RecuperaSenha.tsx";
+
+// Rotas do cliente
+import CadstroCliente from "./pages/Unsigned/Cadastro/Cliente/CadastroCliente.tsx";
+import QuadrasAlugadas from "./pages/Signed/Cliente/QuadrasAlugadas/quadrasAlugadas.tsx";
+import QuadrasFavoritas from "./pages/Signed/Cliente/QuadrasFavoritas/quadrasFavoritas.tsx";
+import ConfiguracoesPerfilCliente from "./pages/Signed/Cliente/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
 
 function App() {
 
@@ -29,7 +39,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Welcome />}></Route>
           <Route path="/recuperaSenha" element={<RecuperaSenha />}></Route>
-          <Route path="/signUp" element={<SignUp />}></Route>
+          <Route path="/recuperaSenhaCodigo" element={<RecuperaSenhaCodigo />}></Route>
+          <Route path="/novaSenha" element={<RecuperaSenhaNovaSenha />}></Route>
+          <Route path="/cadastro" element={<CadstroCliente />}></Route>
 
           {/* Rotas do proprietário */}
           <Route path="/adicionarQuadra" element={<AdicionarQuadra />}></Route>
@@ -38,6 +50,10 @@ function App() {
           <Route path="/verReservas" element={<VerReservas/>}></Route>
           <Route path="/configuracoesPerfilProprietario" element={<ConfiguracoesPerfilProprietario />}></Route>
           
+          {/* Rotas do cliente */}
+          <Route path="/quadrasAlugadas" element={<QuadrasAlugadas />}></Route>
+          <Route path="/quadrasFavoritas" element={<QuadrasFavoritas />}></Route>
+          <Route path="/configuracoesPerfil" element={<ConfiguracoesPerfilCliente />}></Route>
 
           {/* <Route path="/*" element={<NotFound />}></Route> */}
         </Routes>
