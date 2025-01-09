@@ -1,6 +1,6 @@
 
 export default function ConfiguracoesPerfil() {
   return (
-    <div>ConfiguracoesPerfil</div>
+    <div><h1>ConfiguracoesPerfil cliente</h1></div>
   )
 }
