@@ -80,8 +80,9 @@
   background-color: #ebebeb;
   font-size: 16px;
   font-family: Arial, sans-serif;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 1);
   transition: all 0.1s ease;
-  box-sizing: border-box; /* pro tamanho nÃ£o ser afetado por font-size, padding, etc. */
+  box-sizing: border-box; /* pro tamanho não ser afetado por font-size, padding, etc. */
 }
 
 .input::placeholder {
