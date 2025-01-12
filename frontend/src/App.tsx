@@ -54,7 +54,7 @@ function App() {
           {/* Rotas do cliente */}
           <Route path="/quadrasAlugadas" element={<QuadrasAlugadas />}></Route>
           <Route path="/quadrasFavoritas" element={<QuadrasFavoritas />}></Route>
-          <Route path="/configuracoesPerfil" element={<ConfiguracoesPerfilCliente />}></Route>
+          <Route path="/configuracoesPerfil" element={<ConfiguracoesPerfilCliente email="email@email.com" nome="fred" senha="minhaSenha" />}></Route>
           <Route path="/verReservasCliente" element={<VerReservasCliente />}></Route>
 
           {/* <Route path="/*" element={<NotFound />}></Route> */}
