@@ -20,6 +20,7 @@ import CadstroCliente from "./pages/Unsigned/Cadastro/Cliente/CadastroCliente.ts
 import QuadrasAlugadas from "./pages/Signed/Cliente/QuadrasAlugadas/quadrasAlugadas.tsx";
 import QuadrasFavoritas from "./pages/Signed/Cliente/QuadrasFavoritas/quadrasFavoritas.tsx";
 import ConfiguracoesPerfilCliente from "./pages/Signed/Cliente/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
+import VerReservasCliente from "./pages/Signed/Cliente/VerReservas/VerReservas.tsx";
 
 function App() {
 
@@ -54,6 +55,7 @@ function App() {
           <Route path="/quadrasAlugadas" element={<QuadrasAlugadas />}></Route>
           <Route path="/quadrasFavoritas" element={<QuadrasFavoritas />}></Route>
           <Route path="/configuracoesPerfil" element={<ConfiguracoesPerfilCliente />}></Route>
+          <Route path="/verReservasCliente" element={<VerReservasCliente />}></Route>
 
           {/* <Route path="/*" element={<NotFound />}></Route> */}
         </Routes>
