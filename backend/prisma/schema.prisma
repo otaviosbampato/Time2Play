@@ -33,7 +33,7 @@ model Quadra {
   cidade         String
   estado         String
   endereco       String
-  fotos          String[]
+  fotos          Json         @default("[]") // Armazena os objetos { url, publicId }
   reviews        Review[]
   proprietario   Proprietario @relation(fields: [proprietarioId], references: [idProprietario])
   proprietarioId Int

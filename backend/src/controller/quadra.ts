@@ -1,5 +1,13 @@
 import { Request, Response } from "express";
 import prisma from "../db/prisma";
+import { ParamsDictionary } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
+
+import { uploadOnCloudinary, cloudinary } from "../services/cloudinary";
+
+interface MulterRequest extends Request {
+  files: any;
+}
 
 export const cadastrarQuadra = async (req: Request, res: Response) => {
   try {
@@ -137,5 +145,102 @@ export const verQuadra = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Erro ao buscar a quadra:", error);
     return res.status(500).json({ error: "Erro ao buscar a quadra." });
+  }
+};
+
+
+export const atualizarImagensDaQuadra = async (req: Request, res: Response) => {
+  const isAdm = req.isAdm;
+  const idProprietario = req.id; 
+  const files = (req as MulterRequest).files;
+
+  if (!files || files.length === 0 || files.length > 10) {
+    return res.status(400).json({
+      success: false,
+      message: "Envie uma quantidade válida de arquivos (1 a 10 imagens).",
+    });
+  }
+
+  if (!isAdm) {
+    return res.status(403).json({
+      success: false,
+      message: "Apenas administradores podem atualizar imagens de quadras.",
+    });
+  }
+
+  let imagensAntigas: { url: string; publicId: string }[] = [];
+
+  try {
+    const quadra = await prisma.quadra.findUnique({
+      where: { idQuadra: Number(req.params.quadraId) },
+    });
+
+    if (!quadra) {
+      return res.status(404).json({
+        success: false,
+        message: "Quadra não encontrada.",
+      });
+    }
+
+    if (quadra.proprietarioId !== idProprietario) {
+      return res.status(403).json({
+        success: false,
+        message: "Você não tem permissão para alterar imagens desta quadra.",
+      });
+    }
+
+    if (quadra.fotos) {
+      imagensAntigas = quadra.fotos as { url: string; publicId: string }[];
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Erro ao buscar informações da quadra.",
+    });
+  }
+
+  let imagensNovas: { url: string; publicId: string }[] = [];
+
+  try {
+    for (const file of files) {
+      const resultado = await uploadOnCloudinary(file.path, "quadra");
+
+      if (!resultado) {
+        return res.status(500).json({
+          success: false,
+          message: "Erro ao fazer upload para o Cloudinary.",
+        });
+      }
+
+      imagensNovas.push({
+        url: resultado.url,
+        publicId: resultado.public_id,
+      });
+    }
+
+    const quadraAtualizada = await prisma.quadra.update({
+      where: { idQuadra: Number(req.params.quadraId) },
+      data: {
+        fotos: imagensNovas,
+      },
+    });
+
+    for (const imagem of imagensAntigas) {
+      const resultado = await cloudinary.uploader.destroy(imagem.publicId)
+      console.log(resultado)
+      console.log("Imagem excluida com sucesso");
+    }
+
+    return res.status(200).json({
+      success: true,
+      imagensDaQuadra: quadraAtualizada.fotos,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Erro ao atualizar imagens da quadra.",
+    });
   }
 };

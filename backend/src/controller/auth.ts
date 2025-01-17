@@ -3,7 +3,7 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import prisma from "../db/prisma";
 
-import { verifyUserEmail } from "../services/cloudinary";
+import { verifyUserEmail } from "../services/mail";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 
