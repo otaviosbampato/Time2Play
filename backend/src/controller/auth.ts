@@ -3,6 +3,8 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import prisma from "../db/prisma";
 
+import { verifyUserEmail } from "../services/cloudinary";
+
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 
 interface JwtPayload {
@@ -16,6 +18,18 @@ const generateToken = (params: JwtPayload): string => {
     expiresIn: 86400, // 24 horas
   });
 };
+
+function generateCode(length: number): string {
+  let result = '';
+  const characters = "0123456789"
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1
+  }
+  return result;
+}
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -80,5 +94,158 @@ export const login = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Erro ao realizar login:", error);
     return res.status(500).json({ error: "Erro interno no servidor." });
+  }
+};
+
+
+export const esqueceuSenha = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  try {
+    const cliente = await prisma.cliente.findUnique({ where: { email } });
+    const proprietario = await prisma.proprietario.findUnique({ where: { email } });
+
+    if (!cliente && !proprietario) {
+      console.error("Usuário não encontrado");
+      return res.status(404).json({ error: "Usuário não encontrado" });
+    }
+
+    let conta = cliente || proprietario;
+    let tipoConta = cliente ? "cliente" : "proprietario";
+
+    const token = generateCode(6); 
+    const expiration = new Date();
+    expiration.setHours(new Date().getHours() + 3);
+
+    if (cliente) {
+      await prisma.cliente.update({
+        where: { idCliente: cliente.idCliente },
+        data: {
+          passwordResetToken: token,
+          passwordResetTokenExpiration: expiration,
+        },
+      });
+    } else {
+      await prisma.proprietario.update({
+        where: { idProprietario: proprietario!.idProprietario },
+        data: {
+          passwordResetToken: token,
+          passwordResetTokenExpiration: expiration,
+        },
+      });
+    }
+
+    await verifyUserEmail({
+      email, token, nome: conta!.nome
+    });
+
+    res.json({ message: "Email enviado com sucesso" });
+  } catch (err) {
+    console.error("Erro ao processar solicitação:", err);
+    res.status(500).json({ error: "Erro ao processar solicitação" });
+  }
+};
+
+export const verificarToken = async (req: Request, res: Response) => {
+  const { email, token } = req.body;
+
+  try {
+    const cliente = await prisma.cliente.findUnique({
+      where: { email },
+      select: {
+        passwordResetToken: true,
+        passwordResetTokenExpiration: true,
+      },
+    });
+
+    const proprietario = await prisma.proprietario.findUnique({
+      where: { email },
+      select: {
+        passwordResetToken: true,
+        passwordResetTokenExpiration: true,
+      },
+    });
+
+    if (!cliente && !proprietario) {
+      return res.status(404).json({ error: "Usuário não encontrado" });
+    }
+
+    const conta = cliente || proprietario;
+
+    if (
+      token !== conta!.passwordResetToken ||
+      new Date() > (conta!.passwordResetTokenExpiration as Date)
+    ) {
+      return res.status(400).json({ error: "Token inválido ou expirado" });
+    }
+
+    res.json({ message: "Token correto" });
+  } catch (err) {
+    console.error("Erro ao verificar token:", err);
+    res.status(500).json({ error: "Erro ao verificar token" });
+  }
+};
+
+export const recuperarSenha = async (req: Request, res: Response) => {
+  const { email, token, newPassword } = req.body;
+
+  try {
+    const cliente = await prisma.cliente.findUnique({
+      where: { email },
+      select: {
+        idCliente: true,
+        passwordResetToken: true,
+        passwordResetTokenExpiration: true,
+      },
+    });
+
+    const proprietario = await prisma.proprietario.findUnique({
+      where: { email },
+      select: {
+        idProprietario: true,
+        passwordResetToken: true,
+        passwordResetTokenExpiration: true,
+      },
+    });
+
+    if (!cliente && !proprietario) {
+      return res.status(404).json({ error: "Usuário não encontrado" });
+    }
+
+    const conta = cliente || proprietario;
+
+    if (
+      token !== conta!.passwordResetToken ||
+      new Date() > (conta!.passwordResetTokenExpiration as Date)
+    ) {
+      return res.status(400).json({ error: "Token inválido ou expirado" });
+    }
+
+    const hashedPassword = await bcryptjs.hash(newPassword, 10);
+
+    if (cliente) {
+      await prisma.cliente.update({
+        where: { idCliente: cliente.idCliente },
+        data: {
+          senha: hashedPassword,
+          passwordResetToken: null,
+          passwordResetTokenExpiration: null,
+        },
+      });
+    } else {
+      await prisma.proprietario.update({
+        where: { idProprietario: proprietario!.idProprietario },
+        data: {
+          senha: hashedPassword,
+          passwordResetToken: null,
+          passwordResetTokenExpiration: null,
+        },
+      });
+    }
+
+    res.json({ message: "Senha atualizada com sucesso" });
+  } catch (err) {
+    console.error("Erro ao atualizar senha:", err);
+    res.status(500).json({ error: "Erro ao atualizar senha" });
   }
 };

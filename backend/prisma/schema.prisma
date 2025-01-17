@@ -4,22 +4,26 @@ datasource db {
 }
 
 model Cliente {
-  idCliente Int       @id @default(autoincrement())
-  email     String    @unique
-  nome      String
-  senha     String
-  reservas  Reserva[]
-  reviews   Review[]
+  idCliente                    Int       @id @default(autoincrement())
+  email                        String    @unique
+  nome                         String
+  senha                        String
+  passwordResetToken           String?
+  passwordResetTokenExpiration DateTime?
+  reservas                     Reserva[]
+  reviews                      Review[]
 }
 
 model Proprietario {
-  idProprietario Int      @id @default(autoincrement())
-  email          String   @unique
-  nome           String
-  senha          String
-  cpfCnpj        String   @unique
-  cidade         String
-  quadras        Quadra[]
+  idProprietario               Int       @id @default(autoincrement())
+  email                        String    @unique
+  nome                         String
+  senha                        String
+  cpfCnpj                      String    @unique
+  cidade                       String
+  passwordResetToken           String?
+  passwordResetTokenExpiration DateTime?
+  quadras                      Quadra[]
 }
 
 model Quadra {
