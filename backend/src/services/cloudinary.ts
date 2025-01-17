@@ -1,37 +1,40 @@
-import nodemailer, { Transporter } from "nodemailer";
+import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
 import dotenv from "dotenv";
+import fs from "fs";
+
 dotenv.config();
 
-interface VerifyUserEmailParams {
-  email: string;
-  token: string;
-  nome: string;
-}
-
-const transporter: Transporter = nodemailer.createTransport({
-  service: "gmail",
-  host: "smtp.gmail.com",
-  secure: false,
-  auth: {
-    user: process.env.MAILER_USER as string, 
-    pass: process.env.MAILER_PASSWORD as string,
-  },
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME as string,
+  api_key: process.env.CLOUDINARY_API_KEY as string,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY as string,
 });
 
-export const verifyUserEmail = async ({
-  email,
-  token,
-  nome,
-}: VerifyUserEmailParams): Promise<void> => {
+const uploadOnCloudinary = async (
+  localFilePath: string,
+  folder: string
+): Promise<UploadApiResponse | null> => {
   try {
-    await transporter.sendMail({
-      from: process.env.MAILER_USER,
-      to: email,
-      subject: "Recuperação de senha para sua conta no Time2Play",
-      text: `Olá, ${nome}! Você solicitou a recuperação da sua senha para a sua conta no Time2Play. Caso não tenha solicitado, apenas ignore esse e-mail. Seu token de recuperação de senha é ${token}`,
+    if (!localFilePath) {
+      return null;
+    }
+
+    const response: UploadApiResponse = await cloudinary.uploader.upload(localFilePath, {
+      folder,
+      resource_type: "image",
     });
-    console.log("Email enviado com sucesso");
-  } catch (err) {
-    console.error("Erro ao enviar email:", err);
+
+    fs.unlinkSync(localFilePath); 
+    return response;
+  } catch (error) {
+    console.error("Error uploading to Cloudinary:", error);
+
+    if (fs.existsSync(localFilePath)) {
+      fs.unlinkSync(localFilePath); 
+    }
+
+    return null;
   }
 };
+
+export { uploadOnCloudinary, cloudinary };
