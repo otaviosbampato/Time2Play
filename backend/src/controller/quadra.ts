@@ -244,3 +244,32 @@ export const atualizarImagensDaQuadra = async (req: Request, res: Response) => {
     });
   }
 };
+
+
+export const pesquisarQuadras = async (req: Request, res: Response) => {
+  try {
+    const { nome, cidade, esporte } = req.params;
+
+    const where: any = {};
+
+    if (nome && nome !== 'all') {
+      where.nomeQuadra = { contains: String(nome), mode: "insensitive" };
+    }
+
+    if (cidade && cidade !== 'all') {
+      where.cidade = { contains: String(cidade), mode: "insensitive" };
+    }
+
+    if (esporte && esporte !== 'all') {
+      where.esporte = { contains: String(esporte), mode: "insensitive" };
+    }
+      
+    const quadras = await prisma.quadra.findMany({ where });
+
+    res.status(200).json(quadras);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao pesquisar quadras.", detalhes: error });
+  }
+};
+
