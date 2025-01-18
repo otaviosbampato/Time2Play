@@ -32,23 +32,36 @@ model Quadra {
   precoHora      Float
   cidade         String
   estado         String
-  endereco       String
-  fotos          Json         @default("[]") // Armazena os objetos { url, publicId }
+  endereco       String 
+  esporte        String       @default("")
+  fotos          Json         @default("[]")
   reviews        Review[]
   proprietario   Proprietario @relation(fields: [proprietarioId], references: [idProprietario])
   proprietarioId Int
+  Reserva        Reserva[]
 }
 
 // cliente só cria reserva mediante transação.
 // proprietário só recebe o valor após 24h do cliente ter usado a quadra
 // (é o tempo de reclamação que o cliente possui).
 model Reserva {
-  idReserva   Int       @id @default(autoincrement())
-  data        DateTime  @default(now())
-  cliente     Cliente   @relation(fields: [clienteId], references: [idCliente])
+  idReserva   Int              @id @default(autoincrement())
+  data        DateTime         @default(now())
+  cliente     Cliente          @relation(fields: [clienteId], references: [idCliente])
   clienteId   Int
-  transacao   Transacao @relation(fields: [transacaoId], references: [idTransacao])
-  transacaoId Int       @unique
+  transacao   Transacao        @relation(fields: [transacaoId], references: [idTransacao])
+  transacaoId Int              @unique
+  quadra      Quadra           @relation(fields: [quadraId], references: [idQuadra])
+  quadraId    Int
+  horarios    ReservaHorario[]
+}
+
+model ReservaHorario {
+  idHorario  Int      @id @default(autoincrement())
+  dataInicio DateTime
+  dataFim    DateTime
+  reserva    Reserva  @relation(fields: [reservaId], references: [idReserva])
+  reservaId  Int
 }
 
 model Transacao {
