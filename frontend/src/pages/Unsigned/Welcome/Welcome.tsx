@@ -1,19 +1,25 @@
 import { useState, useEffect } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
+import Axios from "../../../shared/context/Axios";
+
 import "./Welcome.css";
 
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../shared/context/AuthProvider';
 
 function Welcome() {
 
     const navigate = useNavigate();
+    const auth = useAuth();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isModalOpen2, setIsModalOpen2] = useState<boolean>(false);
     const [isModalOpen3, setIsModalOpen3] = useState<boolean>(false);
+    const [email, setEmail] = useState<string>();
+    const [password, setPassword] = useState<string>();
 
     const images = [
         "src/assets/futebol.jpg",
@@ -22,7 +28,6 @@ function Welcome() {
         "src/assets/beach.jpg",
         "src/assets/tenis.jpg",
     ];
-
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -37,6 +42,37 @@ function Welcome() {
     const togglePasswordVisibility = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword); // Alterna a visibilidade da senha
     };
+
+  const login = async () => {
+    try {
+      const response = await Axios.post("auth/login", {
+        email: email,
+        senha: password,
+      });
+
+      if (response) {
+        const token = response.data.token;
+
+        auth.setEstaLogado(true);
+        auth.setToken(token);
+
+        if (response.data.usuario.tipoConta == "cliente") {
+            auth.setIsProprietario(false);
+            navigate("/verReservasCliente");
+        } 
+
+        if (response.data.usuario.tipoConta == "proprietario") {
+            auth.setIsProprietario(true);
+            navigate("/adicionarQuadra");
+        }
+        
+      }
+      console.log(response.data);
+    } catch (erro) {
+      console.error("Erro na requisição:", erro);
+      window.alert("erro ao logar");
+    }
+  };
 
 
     return (
@@ -53,7 +89,7 @@ function Welcome() {
 
                     <div className='formsDiv'>
                         <label className='formsTitle' htmlFor="">email</label>
-                        <input className='input' type="text" />
+                        <input className='input' type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
 
                         <label className='formsTitle' htmlFor="">senha</label>
 
@@ -61,6 +97,8 @@ function Welcome() {
                                 <input
                                     className='inputSenha input'
                                     type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <button
                                     type="button"
@@ -102,7 +140,7 @@ function Welcome() {
 
                     <div className='formsDiv'>
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20, justifyContent: 'space-between' }}>
-                            <button className="formsButton" type="submit">Login</button>
+                            <button className="formsButton" type="submit" onClick={login}>Login</button>
                             <button className="formsButton formsButtonRegistrar" type="submit" onClick={() => navigate("/signUp")}>Registrar</button>
                         </div>
                     </div>

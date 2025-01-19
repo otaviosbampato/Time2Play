@@ -22,6 +22,9 @@ import QuadrasFavoritas from "./pages/Signed/Cliente/QuadrasFavoritas/quadrasFav
 import ConfiguracoesPerfilCliente from "./pages/Signed/Cliente/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
 import VerReservasCliente from "./pages/Signed/Cliente/VerReservas/VerReservas.tsx";
 
+import { ProtectedRoutes } from "./shared/utils/ProtectedRoutes.tsx";
+import AuthProvider from "./shared/context/AuthProvider.tsx";
+
 function App() {
 
   const initialQuadra = {
@@ -37,6 +40,8 @@ function App() {
     <>
       <Router>
 
+        <AuthProvider>
+
         <Routes>
           <Route path="/" element={<Welcome />}></Route>
           <Route path="/recuperaSenha" element={<RecuperaSenha />}></Route>
@@ -45,20 +50,26 @@ function App() {
           <Route path="/cadastro" element={<CadstroCliente />}></Route>
 
           {/* Rotas do proprietário */}
-          <Route path="/adicionarQuadra" element={<AdicionarQuadra />}></Route>
-          <Route path="/editarQuadra" element={<EditarQuadra quadra={initialQuadra} />}></Route>
-          <Route path="/minhasQuadras" element={<MinhasQuadras />}></Route>
-          <Route path="/verReservas" element={<VerReservas/>}></Route>
-          <Route path="/configuracoesPerfilProprietario" element={<ConfiguracoesPerfilProprietario />}></Route>
+          <Route element={<ProtectedRoutes adminOnly />}>
+            <Route path="/adicionarQuadra" element={<AdicionarQuadra />}></Route>
+            <Route path="/editarQuadra" element={<EditarQuadra quadra={initialQuadra} />}></Route>
+            <Route path="/minhasQuadras" element={<MinhasQuadras />}></Route>
+            <Route path="/verReservas" element={<VerReservas/>}></Route>
+            <Route path="/configuracoesPerfilProprietario" element={<ConfiguracoesPerfilProprietario />}></Route>
+          </Route>
           
           {/* Rotas do cliente */}
-          <Route path="/quadrasAlugadas" element={<QuadrasAlugadas />}></Route>
-          <Route path="/quadrasFavoritas" element={<QuadrasFavoritas />}></Route>
-          <Route path="/configuracoesPerfil" element={<ConfiguracoesPerfilCliente email="email@email.com" nome="fred" senha="minhaSenha" />}></Route>
-          <Route path="/verReservasCliente" element={<VerReservasCliente />}></Route>
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/quadrasAlugadas" element={<QuadrasAlugadas />}></Route>
+            <Route path="/quadrasFavoritas" element={<QuadrasFavoritas />}></Route>
+            <Route path="/configuracoesPerfil" element={<ConfiguracoesPerfilCliente email="email@email.com" nome="fred" senha="minhaSenha" />}></Route>
+            <Route path="/verReservasCliente" element={<VerReservasCliente />}></Route>
+          </Route>
 
           {/* <Route path="/*" element={<NotFound />}></Route> */}
         </Routes>
+
+        </AuthProvider>
 
       </Router>
     </>
