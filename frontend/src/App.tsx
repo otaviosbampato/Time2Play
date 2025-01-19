@@ -21,6 +21,8 @@ import QuadrasAlugadas from "./pages/Signed/Cliente/QuadrasAlugadas/quadrasAluga
 import QuadrasFavoritas from "./pages/Signed/Cliente/QuadrasFavoritas/quadrasFavoritas.tsx";
 import ConfiguracoesPerfilCliente from "./pages/Signed/Cliente/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
 import VerReservasCliente from "./pages/Signed/Cliente/VerReservas/VerReservas.tsx";
+import VerQuadras from "./pages/Signed/Cliente/VerQuadras/VerQuadras.tsx";
+import VerQuadra from "./pages/Signed/Cliente/VerQuadra/VerQuadra.tsx";
 
 import { ProtectedRoutes } from "./shared/utils/ProtectedRoutes.tsx";
 import AuthProvider from "./shared/context/AuthProvider.tsx";
@@ -60,6 +62,8 @@ function App() {
           
           {/* Rotas do cliente */}
           <Route element={<ProtectedRoutes />}>
+            <Route path="/verQuadras" element={<VerQuadras />}></Route>
+            <Route path="/verQuadra" element={<VerQuadra />}></Route>
             <Route path="/quadrasAlugadas" element={<QuadrasAlugadas />}></Route>
             <Route path="/quadrasFavoritas" element={<QuadrasFavoritas />}></Route>
             <Route path="/configuracoesPerfil" element={<ConfiguracoesPerfilCliente email="email@email.com" nome="fred" senha="minhaSenha" />}></Route>

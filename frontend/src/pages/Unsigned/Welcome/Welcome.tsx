@@ -55,15 +55,16 @@ function Welcome() {
 
         auth.setEstaLogado(true);
         auth.setToken(token);
+        auth.setId(response.data.usuario.id);
 
         if (response.data.usuario.tipoConta == "cliente") {
             auth.setIsProprietario(false);
-            navigate("/verReservasCliente");
+            navigate("/verQuadras");
         } 
 
         if (response.data.usuario.tipoConta == "proprietario") {
             auth.setIsProprietario(true);
-            navigate("/adicionarQuadra");
+            navigate("/minhasQuadras");
         }
         
       }
