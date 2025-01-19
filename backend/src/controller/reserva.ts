@@ -24,6 +24,7 @@ export const realizarReserva = async (req: Request, res: Response) => {
   try {
     const { clienteId, quadraId, horarios }: CreateReservaRequest = req.body;
 
+    console.log(quadraId)
     const quadra = await prisma.quadra.findUnique({
       where: { idQuadra: quadraId }
     });

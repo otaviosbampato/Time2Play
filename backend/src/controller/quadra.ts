@@ -11,7 +11,7 @@ interface MulterRequest extends Request {
 
 export const cadastrarQuadra = async (req: Request, res: Response) => {
   try {
-    const { nomeQuadra, precoHora, cidade, estado, endereco } = req.body;
+    const { nomeQuadra, precoHora, endereco, esporte } = req.body;
 
     const proprietarioId = req.id;
 
@@ -29,9 +29,8 @@ export const cadastrarQuadra = async (req: Request, res: Response) => {
       data: {
         nomeQuadra: nomeQuadra,
         precoHora: precoHora,
-        cidade: cidade,
-        estado: estado,
         endereco: endereco,
+        esporte: esporte,
         proprietarioId: proprietarioId,
       },
     });
@@ -85,7 +84,7 @@ export const excluirQuadra = async (req: Request, res: Response) => {
 export const editarQuadra = async (req: Request, res: Response) => {
   try {
     const { idQuadra } = req.params;
-    const { nomeQuadra, precoHora, cidade, estado, endereco } = req.body;
+    const { nomeQuadra, precoHora, endereco } = req.body;
     
     const proprietarioId = req.id;
 
@@ -106,8 +105,6 @@ export const editarQuadra = async (req: Request, res: Response) => {
       data: {
         nomeQuadra: nomeQuadra || quadra.nomeQuadra,
         precoHora: precoHora || quadra.precoHora,
-        cidade: cidade || quadra.cidade,
-        estado: estado || quadra.estado,
         endereco: endereco || quadra.endereco,
       },
     });
@@ -148,6 +145,42 @@ export const verQuadra = async (req: Request, res: Response) => {
   }
 };
 
+export const minhasQuadras = async (req: Request, res: Response) => {
+  try {
+    const idProprietario = req.id;
+
+    const { nome, endereco, esporte } = req.params;
+
+    const where: any = {};
+
+    if (nome && nome !== 'all') {
+      where.nomeQuadra = { contains: String(nome), mode: "insensitive" };
+    }
+
+    if (endereco && endereco !== 'all') {
+      where.endereco = { contains: String(endereco), mode: "insensitive" };
+    }
+
+    if (esporte && esporte !== 'all') {
+      where.esporte = { contains: String(esporte), mode: "insensitive" };
+    }
+
+    where.proprietarioId = idProprietario
+      
+    const quadras = await prisma.quadra.findMany({ where });
+
+    if (!quadras) {
+      return res.status(404).json({ error: "Quadra não encontrada." });
+    }
+
+    console.log("Detalhes da quadra:", quadras);
+
+    res.status(200).json(quadras);
+  } catch (error) {
+    console.error("Erro ao buscar a quadra:", error);
+    return res.status(500).json({ error: "Erro ao buscar a quadra." });
+  }
+};
 
 export const atualizarImagensDaQuadra = async (req: Request, res: Response) => {
   const isAdm = req.isAdm;
@@ -245,10 +278,9 @@ export const atualizarImagensDaQuadra = async (req: Request, res: Response) => {
   }
 };
 
-
 export const pesquisarQuadras = async (req: Request, res: Response) => {
   try {
-    const { nome, cidade, esporte } = req.params;
+    const { nome, endereco, esporte } = req.params;
 
     const where: any = {};
 
@@ -256,8 +288,8 @@ export const pesquisarQuadras = async (req: Request, res: Response) => {
       where.nomeQuadra = { contains: String(nome), mode: "insensitive" };
     }
 
-    if (cidade && cidade !== 'all') {
-      where.cidade = { contains: String(cidade), mode: "insensitive" };
+    if (endereco && endereco !== 'all') {
+      where.endereco = { contains: String(endereco), mode: "insensitive" };
     }
 
     if (esporte && esporte !== 'all') {
@@ -272,4 +304,3 @@ export const pesquisarQuadras = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Erro ao pesquisar quadras.", detalhes: error });
   }
 };
-
