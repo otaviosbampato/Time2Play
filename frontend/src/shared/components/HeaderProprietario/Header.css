@@ -39,9 +39,15 @@
   text-decoration: none;
   font-family: "Baloo Bhaijaan 2", sans-serif;
   font-weight: 500;
-  color: gray;
+  color: white;
   text-align: center;
   transition: all 0.3s ease;
+}
+
+.header-link:hover,
+.header-link:active,
+.header-link:visited {
+  color: gray; 
 }
 
 .header-link.active {

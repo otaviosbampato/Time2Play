@@ -44,6 +44,12 @@
     transition: all 0.3s ease;
   }
   
+  .header-link:hover,
+  .header-link:active,
+  .header-link:visited {
+    color: gray; 
+  }
+
   .header-link.active {
     color: white;
     border-bottom: 2px solid white;

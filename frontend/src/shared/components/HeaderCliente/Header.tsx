@@ -5,8 +5,11 @@ import engrenagem from "../../../assets/engrenagem.png";
 import { Link } from "react-router-dom";
 import "./Header.css";
 
+import { useAuth } from "../../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
+
 type HeaderProps = {
-  currentTab: "Inicio" | "quadrasAlugadas" | "quadrasFavoritas";
+  currentTab: "Inicio" | "quadrasAlugadas" | "meuPerfil";
 };
 
 export default function Header({ currentTab }: HeaderProps) {
@@ -14,6 +17,26 @@ export default function Header({ currentTab }: HeaderProps) {
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
+  };
+
+  const auth = useAuth();
+  const navigation = useNavigate()
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("email");
+  
+      auth.setEstaLogado(false);
+      auth.setIsProprietario(false)
+      auth.setToken("");
+  
+      console.log("Usuário deslogado");
+  
+      navigation("/");
+    } catch (e) {
+      console.error("Erro ao realizar logout:", e);
+    }
   };
 
   return (
@@ -32,7 +55,7 @@ export default function Header({ currentTab }: HeaderProps) {
               className={`header-link ${
                 currentTab === "Inicio" ? "active" : ""
               }`}
-              to="/inicio"
+              to="/verQuadras"
             >
               Início
             </Link>
@@ -40,17 +63,9 @@ export default function Header({ currentTab }: HeaderProps) {
               className={`header-link ${
                 currentTab === "quadrasAlugadas" ? "active" : ""
               }`}
-              to="/quadrasAlugadas"
+              to="/verReservasCliente"
             >
               Quadras alugadas
-            </Link>
-            <Link
-              className={`header-link ${
-                currentTab === "quadrasFavoritas" ? "active" : ""
-              }`}
-              to="/quadrasFavoritas"
-            >
-              Quadras favoritas
             </Link>
           </div>
           <div className="header-icons">
@@ -61,7 +76,7 @@ export default function Header({ currentTab }: HeaderProps) {
                 alt="Settings"
               />
             </Link>
-            <Link to="/">
+            <Link to="/" onClick={handleLogout}>
               <img
                 src={logout}
                 className="header-icon header-green-circle"
