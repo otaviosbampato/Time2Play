@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Welcome from "./pages/Unsigned/Welcome/Welcome.tsx";
 import RecuperaSenha from "./pages/Unsigned/RecuperaSenha1/RecuperaSenha.tsx";
 import RecuperaSenhaCodigo from "./pages/Unsigned/RecuperaSenha2/RecuperaSenha2.tsx";
-import RecuperaSenhaNovaSenha from "./pages/Unsigned/RecuperaSenha3/RecuperaSenha3.tsx";
 
 // Rotas proprietário
 import AdicionarQuadra from "./pages/Signed/Proprietario/AdicionarQuadra/AdicionarQuadra.tsx";
@@ -49,7 +48,6 @@ function App() {
           <Route path="/" element={<Welcome />}></Route>
           <Route path="/recuperaSenha" element={<RecuperaSenha />}></Route>
           <Route path="/recuperaSenhaCodigo" element={<RecuperaSenhaCodigo />}></Route>
-          <Route path="/novaSenha" element={<RecuperaSenhaNovaSenha />}></Route>
           <Route path="/cadastroCliente" element={<CadstroCliente />}></Route>
           <Route path="/cadastroProprietario" element={<CadastroProprietario />}></Route>
 

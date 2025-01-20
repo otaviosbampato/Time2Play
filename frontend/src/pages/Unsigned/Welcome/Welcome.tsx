@@ -133,7 +133,7 @@ function Welcome() {
                                     <p className='manterLogado'>manter logado</p>
                                 </div>
                             </div>
-                            <button className="esqueceuSuaSenha" type="submit" onClick={() => setIsModalOpen(true)}>esqueceu sua senha?</button>
+                            <button className="esqueceuSuaSenha" type="submit" onClick={() => navigate("/recuperaSenha")}>esqueceu sua senha?</button>
                         </div>
 
                     </div>
