@@ -64,7 +64,7 @@ function App() {
           <Route element={<ProtectedRoutes />}>
             <Route path="/verQuadras" element={<VerQuadras />}></Route>
             <Route path="/verQuadra" element={<VerQuadra />}></Route>
-            <Route path="/quadrasAlugadas" element={<QuadrasAlugadas />}></Route>
+            <Route path="/quadrasAlugadas" element={<VerReservasCliente />}></Route>
             <Route path="/quadrasFavoritas" element={<QuadrasFavoritas />}></Route>
             <Route path="/configuracoesPerfil" element={<ConfiguracoesPerfilCliente email="email@email.com" nome="fred" senha="minhaSenha" />}></Route>
             <Route path="/verReservasCliente" element={<VerReservasCliente />}></Route>

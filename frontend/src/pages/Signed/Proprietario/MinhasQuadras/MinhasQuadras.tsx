@@ -65,6 +65,7 @@ export default function MinhasQuadras() {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(response.data);
       setQuadras(response.data);
     } catch (error) {
       console.error("Erro ao carregar quadras:", error);
@@ -73,14 +74,13 @@ export default function MinhasQuadras() {
         setLoading(false);
       }, 1000);
 
-      return () => clearTimeout(timer); 
+      return () => clearTimeout(timer);
     }
   };
 
   useEffect(() => {
     getQuadras();
   }, [token]);
-
 
   return (
     <>
@@ -109,7 +109,7 @@ export default function MinhasQuadras() {
               <div
                 key={quadra.idQuadra}
                 className={styles.quadraCard}
-                onClick={() =>
+                onClick={() => {
                   navigate(`/editarQuadra`, {
                     state: {
                       id: quadra.idQuadra,
@@ -120,7 +120,7 @@ export default function MinhasQuadras() {
                       imagens: quadra.fotos,
                     },
                   })
-                }
+                }}
               >
                 <div className={styles.imageContainer}>
                   {quadra.fotos.length > 0 ? (

@@ -2,31 +2,87 @@ import styles from "./VerReservas.module.css";
 
 import Header from "../../../../shared/components/HeaderProprietario/Header";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardReservaCliente from "../../../../shared/components/CardReservaCliente/CardReservaCliente";
 import DateSelector from "../../../../shared/components/DateSelector/DateSelector";
-import futebol from "../../../../assets/futebol.jpg"
+import futebol from "../../../../assets/futebol.jpg";
+
+import Axios from "../../../../shared/context/Axios";
+import { useAuth } from "../../../../shared/context/AuthProvider";
+
+interface Quadra {
+  idQuadra: number;
+  nomeQuadra: string;
+  precoHora: number;
+  cidade: string;
+  estado: string;
+  endereco: string;
+  esporte: string;
+  fotos: string[];
+  proprietarioId: number;
+}
+
+interface Horario {
+  idHorario: number;
+  dataInicio: string;
+  dataFim: string;
+  reservaId: number;
+}
+
+interface Cliente {
+  email: string;
+  nome: string;
+}
+
+interface Reserva {
+  idReserva: number;
+  data: string;
+  clienteId: number;
+  transacaoId: number;
+  quadraId: number;
+  quadra: Quadra;
+  horarios: Horario[];
+  cliente: Cliente;
+}
 
 export default function VerReservas() {
-  const [selectedDate, setSelectedDate] = useState<String>("");
+  const { token } = useAuth();
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [reservas, setReservas] = useState<Reserva[]>([]);
 
-  const reservas = [
-    { id: 1, foto: futebol, nomeQuadra: "quadra de fut", nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 2, foto: futebol, nomeQuadra: "quadra de baska", nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-    { id: 3, foto: futebol, nomeQuadra: "quadra de beach", nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 4, foto: futebol, nomeQuadra: "quadra de volei", nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-    { id: 5, foto: futebol, nomeQuadra: "quadra de paosd", nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 6, foto: futebol, nomeQuadra: "quadra de yes", nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-    { id: 7, foto: futebol, nomeQuadra: "quadra de no", nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 8, foto: futebol, nomeQuadra: "quadra de t", nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-    { id: 9, foto: futebol, nomeQuadra: "quadra de s", nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 10, foto: futebol, nomeQuadra: "quadra de v", nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-    { id: 11, foto: futebol, nomeQuadra: "quadra de fu", nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 12, foto: futebol, nomeQuadra: "quadra de futt", nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-  ];
+  useEffect(() => {
+    getReservas();
+  }, []);
 
-  const handleExcluirReserva = (id: number) => {
-    console.log(`Reserva com ID ${id} excluída.`);
+  const getReservas = async () => {
+    try {
+      const response = await Axios.get("/reserva/cliente", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(response.data);
+      setReservas(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar reservas:", error);
+    }
+  };
+
+  const handleExcluirReserva = async (id: number) => {
+    try {
+      const response = await Axios.delete(`/reserva/cancelar/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(response.data);
+
+      window.alert("Reserva cancelada com sucesso ")
+    } catch (error) {
+      window.alert("Erro ao excluir reserva");
+    }
   };
 
   return (
@@ -40,21 +96,30 @@ export default function VerReservas() {
           display: "flex",
           justifyContent: "center",
           width: "100%",
-          marginBottom: 40
+          marginBottom: 40,
         }}
       >
-        <DateSelector onChange={(date: String) => setSelectedDate(date)} />
+        <DateSelector onChange={(date: string) => setSelectedDate(date)} />
       </div>
 
       <div className={styles.reservasContainer}>
         {reservas.map((reserva) => (
           <CardReservaCliente
-            key={reserva.id}
-            foto={reserva.foto}
-            nomeQuadra={reserva.nomeQuadra}
-            nomeCliente={reserva.nomeCliente}
-            horario={reserva.horario}
-            onExcluir={() => handleExcluirReserva(reserva.id)}
+            key={reserva.idReserva}
+            foto={reserva.quadra.fotos[0] || futebol} // Usa a primeira foto ou imagem padrão
+            nomeQuadra={reserva.quadra.nomeQuadra}
+            nomeCliente={reserva.cliente.nome} // Ajusta para o identificador do cliente
+            horario={reserva.horarios
+              .map(
+                (horario) =>
+                  `${new Date(
+                    horario.dataInicio
+                  ).toLocaleTimeString()} - ${new Date(
+                    horario.dataFim
+                  ).toLocaleTimeString()}`
+              )
+              .join(", ")} // Formata os horários como string
+            onExcluir={() => handleExcluirReserva(reserva.idReserva)}
           />
         ))}
       </div>

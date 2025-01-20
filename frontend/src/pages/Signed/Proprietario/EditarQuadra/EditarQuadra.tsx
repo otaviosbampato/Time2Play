@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Header from "../../../../shared/components/HeaderProprietario/Header";
 import CardReview from "../../../../shared/components/CardReview/CardReview";
 import CarrosselImagens from "../../../../shared/components/CarrosselImagens/CarrosselImagens";
 import uploadDeFoto from "../../../../assets/uploadDeFoto.png";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import styles from "./EditarQuadra.module.css";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
+
+import { useNavigate } from "react-router-dom";
 
 interface Quadra {
   id: string;
@@ -30,6 +32,10 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
   const [descricao, setDescricao] = useState(quadra.descricao);
   const [preco, setPreco] = useState(quadra.preco);
   const [imagens, setImagens] = useState<File[]>(quadra.imagens);
+
+  const navigation = useNavigate();
+  const location = useLocation();
+  const idQuadra = location.state.id;
 
   const avaliacoes = [
     {
@@ -208,7 +214,7 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
             <button type="submit" className={styles.submitButton}>
               Atualizar quadra
             </button>
-            <Link className={styles.submitButton} to="/verReservas">Visualizar reservas</Link>
+            <button className={styles.submitButton} onClick={() => navigation("/verReservas", {state: idQuadra })}>Visualizar reservas</button>
             <button className={styles.deleteButton}>Excluir quadra</button>{" "}
             {/* colocar modal de confirmação*/}
           </div>
