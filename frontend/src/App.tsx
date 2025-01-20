@@ -29,14 +29,6 @@ import CadastroProprietario from "./pages/Unsigned/Cadastro/Proprietario/Cadastr
 
 function App() {
 
-  const initialQuadra = {
-    id: "1",
-    localizacao: "Rua dos Esportes, 123",
-    esporte: "futebol",
-    descricao: "Quadra com gramado sintético, ideal para futebol amador.",
-    preco: 100,
-    imagens: [],
-  };
 
   return (
     <>
@@ -54,7 +46,7 @@ function App() {
           {/* Rotas do proprietário */}
           <Route element={<ProtectedRoutes adminOnly />}>
             <Route path="/adicionarQuadra" element={<AdicionarQuadra />}></Route>
-            <Route path="/editarQuadra" element={<EditarQuadra quadra={initialQuadra} />}></Route>
+            <Route path="/editarQuadra" element={<EditarQuadra />}></Route>
             <Route path="/minhasQuadras" element={<MinhasQuadras />}></Route>
             <Route path="/verReservas" element={<VerReservas/>}></Route>
             <Route path="/configuracoesPerfilProprietario" element={<ConfiguracoesPerfilProprietario />}></Route>

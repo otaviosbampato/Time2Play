@@ -1,6 +1,6 @@
 import styles from "./VerReservas.module.css";
 
-import Header from "../../../../shared/components/HeaderProprietario/Header";
+import Header from "../../../../shared/components/HeaderCliente/Header";
 
 import { useEffect, useState } from "react";
 import CardReservaCliente from "../../../../shared/components/CardReservaCliente/CardReservaCliente";
@@ -87,7 +87,7 @@ export default function VerReservas() {
 
   return (
     <div className={styles.container}>
-      <Header currentTab="minhasQuadras" />
+      <Header currentTab="quadrasAlugadas" />
 
       <h2 className={styles.titulo}>Reservas realizadas por você</h2>
 

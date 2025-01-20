@@ -5,36 +5,41 @@ import CardReview from "../../../../shared/components/CardReview/CardReview";
 import CarrosselImagens from "../../../../shared/components/CarrosselImagens/CarrosselImagens";
 import uploadDeFoto from "../../../../assets/uploadDeFoto.png";
 
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import styles from "./EditarQuadra.module.css";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
 
 import { useNavigate } from "react-router-dom";
+import Axios from "../../../../shared/context/Axios";
+import { useAuth } from "../../../../shared/context/AuthProvider";
 
 interface Quadra {
   id: string;
   localizacao: string;
   esporte: string;
-  descricao: string;
+  nomeQuadra: string;
   preco: number;
-  imagens: File[];
+  imagens: Imagem[];
 }
 
-interface EditarQuadraProps {
-  quadra: Quadra;
+interface Imagem {
+  url: string;
 }
 
-const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
-  const [localizacao, setLocalizacao] = useState(quadra.localizacao);
-  const [esporte, setEsporte] = useState(quadra.esporte);
-  const [descricao, setDescricao] = useState(quadra.descricao);
-  const [preco, setPreco] = useState(quadra.preco);
-  const [imagens, setImagens] = useState<File[]>(quadra.imagens);
+const EditarQuadra = () => {
+  const location = useLocation();
+
+  const [localizacao, setLocalizacao] = useState(location.state.localizacao);
+  const [esporte, setEsporte] = useState(location.state.esporte);
+  const [nomeQuadra, setnomeQuadra] = useState(location.state.nomeQuadra);
+  const [preco, setPreco] = useState(location.state.precoHora);
+  const [imagens, setImagens] = useState<Imagem[]>(location.state.imagens); 
+  const [imagensCarregadas, setImagensCarregadas] = useState<File[]>([]); 
 
   const navigation = useNavigate();
-  const location = useLocation();
+  const { token } = useAuth();
   const idQuadra = location.state.id;
 
   const avaliacoes = [
@@ -96,17 +101,61 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files);
-      setImagens((prev) => [...prev, ...filesArray]);
+      setImagensCarregadas((prev) => [...prev, ...filesArray]);
     }
+  };
+
+  const removeImageCarregada = (index: number) => {
+    setImagensCarregadas((prev) => prev.filter((_, i) => i !== index));
   };
 
   const removeImage = (index: number) => {
     setImagens((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert("Quadra atualizada com sucesso!");
+  const excluirQuadra = async () => {
+    try {
+      const response = await Axios.delete(
+        `/quadra/excluir/${idQuadra}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      window.alert("Quadra excluida com sucesso");
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      window.alert("Erro ao excluir quadra");
+    }
+  }
+
+
+  const atualizarQuadra = async () => {
+    try {
+      const response = await Axios.put(
+        `/quadra/editar/${idQuadra}`,
+        {
+          nomeQuadra: nomeQuadra,
+          precoHora: preco,
+          esporte: esporte,
+          endereco: localizacao,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      window.alert("Quadra atualizada com sucesso");
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      window.alert("Erro ao atualizar quadra");
+    }
   };
 
   return (
@@ -116,7 +165,7 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
       <h2 className={styles.title}>Informações sobre a quadra:</h2>
 
       <div className={styles.container}>
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.form}>
           <div className={styles.formLine}>
             <div className={styles.formGroup}>
               <label className={styles.label} htmlFor="localizacao">
@@ -157,14 +206,14 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
 
           <div className={styles.formLine}>
             <div className={styles.formGroup}>
-              <label className={styles.label} htmlFor="descricao">
-                Descrição *
+              <label className={styles.label} htmlFor="nomeQuadra">
+                Nome da quadra *
               </label>
               <textarea
                 className={styles.textarea}
-                id="descricao"
-                value={descricao}
-                onChange={(e) => setDescricao(e.target.value)}
+                id="nomeQuadra"
+                value={nomeQuadra}
+                onChange={(e) => setnomeQuadra(e.target.value)}
                 placeholder="Descrição sobre a quadra"
                 required
               ></textarea>
@@ -208,17 +257,34 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
             />
           </div>
 
-          <CarrosselImagens images={imagens} onRemoveImage={removeImage} />
+          <CarrosselImagens
+            images={imagens}
+            onRemoveImage={removeImage}
+            title="Imagens da API"
+          />
+
+          <CarrosselImagens
+            images={imagensCarregadas.map((file) => ({
+              url: URL.createObjectURL(file),
+            }))}
+            onRemoveImage={removeImageCarregada}
+            title="Imagens Carregadas"
+          />
 
           <div className={styles.submitButtonContainer}>
-            <button type="submit" className={styles.submitButton}>
+            <button className={styles.submitButton} onClick={atualizarQuadra}>
               Atualizar quadra
             </button>
-            <button className={styles.submitButton} onClick={() => navigation("/verReservas", {state: idQuadra })}>Visualizar reservas</button>
-            <button className={styles.deleteButton}>Excluir quadra</button>{" "}
+            <button
+              className={styles.submitButton}
+              onClick={() => navigation("/verReservas", { state: idQuadra })}
+            >
+              Visualizar reservas
+            </button>
+            <button className={styles.deleteButton} onClick={excluirQuadra}>Excluir quadra</button>{" "}
             {/* colocar modal de confirmação*/}
           </div>
-        </form>
+        </div>
 
         <div>
           <Carousel
@@ -232,7 +298,7 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
             dotListClass="custom-dot-list-style"
             itemClass="carousel-item-padding"
             partialVisible={true}
-            centerMode={false} 
+            centerMode={false}
           >
             {avaliacoes.map((avaliacao, index) => (
               <div

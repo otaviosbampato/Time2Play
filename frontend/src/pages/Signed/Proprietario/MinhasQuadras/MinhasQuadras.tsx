@@ -115,7 +115,7 @@ export default function MinhasQuadras() {
                       id: quadra.idQuadra,
                       localizacao: quadra.endereco,
                       esporte: quadra.esporte,
-                      descricao: "Descrição da quadra",
+                      nomeQuadra: quadra.nomeQuadra,
                       preco: quadra.precoHora,
                       imagens: quadra.fotos,
                     },
