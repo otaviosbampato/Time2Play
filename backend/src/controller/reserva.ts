@@ -180,7 +180,7 @@ export const listarReservasCliente = async (req: Request, res: Response) => {
       include: {
         quadra: true,
         horarios: true,
-        transacao: true
+        cliente: true
       }
     });
 
