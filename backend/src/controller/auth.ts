@@ -20,13 +20,13 @@ const generateToken = (params: JwtPayload): string => {
 };
 
 function generateCode(length: number): string {
-  let result = '';
-  const characters = "0123456789"
+  let result = "";
+  const characters = "0123456789";
   const charactersLength = characters.length;
   let counter = 0;
   while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
   }
   return result;
 }
@@ -58,7 +58,7 @@ export const login = async (req: Request, res: Response) => {
       conta = cliente;
       tipoConta = "cliente";
     }
-    
+
     if (proprietario) {
       conta = proprietario;
       tipoConta = "proprietario";
@@ -97,13 +97,14 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-
 export const esqueceuSenha = async (req: Request, res: Response) => {
   const { email } = req.body;
 
   try {
     const cliente = await prisma.cliente.findUnique({ where: { email } });
-    const proprietario = await prisma.proprietario.findUnique({ where: { email } });
+    const proprietario = await prisma.proprietario.findUnique({
+      where: { email },
+    });
 
     if (!cliente && !proprietario) {
       console.error("Usuário não encontrado");
@@ -113,7 +114,7 @@ export const esqueceuSenha = async (req: Request, res: Response) => {
     let conta = cliente || proprietario;
     let tipoConta = cliente ? "cliente" : "proprietario";
 
-    const token = generateCode(6); 
+    const token = generateCode(6);
     const expiration = new Date();
     expiration.setHours(new Date().getHours() + 3);
 
@@ -136,7 +137,9 @@ export const esqueceuSenha = async (req: Request, res: Response) => {
     }
 
     await verifyUserEmail({
-      email, token, nome: conta!.nome
+      email,
+      token,
+      nome: conta!.nome,
     });
 
     res.json({ message: "Email enviado com sucesso" });
@@ -147,23 +150,16 @@ export const esqueceuSenha = async (req: Request, res: Response) => {
 };
 
 export const verificarToken = async (req: Request, res: Response) => {
-  const { email, token } = req.body;
+  const { email } = req.body;
+  const isAdm = req.isAdm;
 
   try {
     const cliente = await prisma.cliente.findUnique({
       where: { email },
-      select: {
-        passwordResetToken: true,
-        passwordResetTokenExpiration: true,
-      },
     });
 
     const proprietario = await prisma.proprietario.findUnique({
       where: { email },
-      select: {
-        passwordResetToken: true,
-        passwordResetTokenExpiration: true,
-      },
     });
 
     if (!cliente && !proprietario) {
@@ -171,15 +167,8 @@ export const verificarToken = async (req: Request, res: Response) => {
     }
 
     const conta = cliente || proprietario;
-
-    if (
-      token !== conta!.passwordResetToken ||
-      new Date() > (conta!.passwordResetTokenExpiration as Date)
-    ) {
-      return res.status(400).json({ error: "Token inválido ou expirado" });
-    }
-
-    res.json({ message: "Token correto" });
+   
+    res.json({ conta, isAdm: isAdm} );
   } catch (err) {
     console.error("Erro ao verificar token:", err);
     res.status(500).json({ error: "Erro ao verificar token" });

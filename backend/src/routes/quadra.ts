@@ -11,8 +11,8 @@ router.post("/cadastrar", [authMiddleware, admMiddleware], cadastrarQuadra);
 router.delete("/excluir/:idQuadra", [authMiddleware, admMiddleware], excluirQuadra);
 router.put("/editar/:idQuadra", [authMiddleware, admMiddleware], editarQuadra);
 router.put("/atualizarQuadra/:quadraId", [authMiddleware, admMiddleware, upload.array('images')], atualizarImagensDaQuadra);
-router.get("/pesquisar/:nome/:cidade/:esporte", authMiddleware, pesquisarQuadras);
-router.get("/minhasQuadras/:nome/:cidade/:esporte", [authMiddleware, admMiddleware], minhasQuadras);
+router.get("/pesquisar/:nome/:endereco/:esporte", authMiddleware, pesquisarQuadras);
+router.get("/minhasQuadras/:nome/:endereco/:esporte", [authMiddleware, admMiddleware], minhasQuadras);
 router.get("/verQuadra/:idQuadra", authMiddleware, verQuadra);
 
 export default router;

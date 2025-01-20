@@ -84,7 +84,7 @@ export const excluirQuadra = async (req: Request, res: Response) => {
 export const editarQuadra = async (req: Request, res: Response) => {
   try {
     const { idQuadra } = req.params;
-    const { nomeQuadra, precoHora, endereco } = req.body;
+    const { nomeQuadra, precoHora, endereco, esporte } = req.body;
     
     const proprietarioId = req.id;
 
@@ -106,6 +106,7 @@ export const editarQuadra = async (req: Request, res: Response) => {
         nomeQuadra: nomeQuadra || quadra.nomeQuadra,
         precoHora: precoHora || quadra.precoHora,
         endereco: endereco || quadra.endereco,
+        esporte: esporte || quadra.esporte,
       },
     });
 
