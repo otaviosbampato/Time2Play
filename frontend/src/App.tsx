@@ -26,6 +26,7 @@ import VerQuadra from "./pages/Signed/Cliente/VerQuadra/VerQuadra.tsx";
 
 import { ProtectedRoutes } from "./shared/utils/ProtectedRoutes.tsx";
 import AuthProvider from "./shared/context/AuthProvider.tsx";
+import CadastroProprietario from "./pages/Unsigned/Cadastro/Proprietario/CadastroProprietario.tsx";
 
 function App() {
 
@@ -49,7 +50,8 @@ function App() {
           <Route path="/recuperaSenha" element={<RecuperaSenha />}></Route>
           <Route path="/recuperaSenhaCodigo" element={<RecuperaSenhaCodigo />}></Route>
           <Route path="/novaSenha" element={<RecuperaSenhaNovaSenha />}></Route>
-          <Route path="/cadastro" element={<CadstroCliente />}></Route>
+          <Route path="/cadastroCliente" element={<CadstroCliente />}></Route>
+          <Route path="/cadastroProprietario" element={<CadastroProprietario />}></Route>
 
           {/* Rotas do proprietário */}
           <Route element={<ProtectedRoutes adminOnly />}>

@@ -142,7 +142,7 @@ function Welcome() {
                     <div className='formsDiv'>
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20, justifyContent: 'space-between' }}>
                             <button className="formsButton" type="submit" onClick={login}>Login</button>
-                            <button className="formsButton formsButtonRegistrar" type="submit" onClick={() => navigate("/signUp")}>Registrar</button>
+                            <button className="formsButton formsButtonRegistrar" type="submit" onClick={() => navigate("/cadastroCliente")}>Registrar</button>
                         </div>
                     </div>
 
