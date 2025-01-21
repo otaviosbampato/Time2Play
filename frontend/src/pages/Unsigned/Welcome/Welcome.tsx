@@ -44,20 +44,20 @@ function Welcome() {
         }
       );
 
-  
       if (response.data) {
         auth.setEstaLogado(true);
         auth.setToken(token);
-        
+
         console.log("Usuario logado automaticamente:", token, email);
-        console.log(response.data)
+        console.log(response.data);
         if (response.data.isAdm) {
           navigate("/minhasQUadras");
-          auth.setIsProprietario(true)
+          auth.setIsProprietario(true);
+          auth.setId(response.data.conta.idProprietario);
         } else {
           navigate("/verQuadras");
-          auth.setIsProprietario(false)
-
+          auth.setIsProprietario(false);
+          auth.setId(response.data.conta.idCliente);
         }
       } else {
         auth.setEstaLogado(false);

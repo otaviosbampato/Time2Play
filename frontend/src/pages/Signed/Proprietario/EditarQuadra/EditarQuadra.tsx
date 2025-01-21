@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../../../shared/components/HeaderProprietario/Header";
 import CardReview from "../../../../shared/components/CardReview/CardReview";
 import CarrosselImagens from "../../../../shared/components/CarrosselImagens/CarrosselImagens";
+
 import uploadDeFoto from "../../../../assets/uploadDeFoto.png";
 
 import { useLocation } from "react-router-dom";
@@ -15,17 +16,18 @@ import { useNavigate } from "react-router-dom";
 import Axios from "../../../../shared/context/Axios";
 import { useAuth } from "../../../../shared/context/AuthProvider";
 
-interface Quadra {
-  id: string;
-  localizacao: string;
-  esporte: string;
-  nomeQuadra: string;
-  preco: number;
-  imagens: Imagem[];
-}
-
 interface Imagem {
   url: string;
+}
+
+interface Review {
+  idReview: number;
+  nota: number;
+  titulo: string;
+  comentario: string;
+  data: string;
+  quadraId: number;
+  clienteId: number;
 }
 
 const EditarQuadra = () => {
@@ -35,50 +37,17 @@ const EditarQuadra = () => {
   const [esporte, setEsporte] = useState(location.state.esporte);
   const [nomeQuadra, setnomeQuadra] = useState(location.state.nomeQuadra);
   const [preco, setPreco] = useState(location.state.precoHora);
-  const [imagens, setImagens] = useState<Imagem[]>(location.state.imagens); 
-  const [imagensCarregadas, setImagensCarregadas] = useState<File[]>([]); 
+  const [imagens, setImagens] = useState<Imagem[]>(location.state.imagens);
+  const [imagensCarregadas, setImagensCarregadas] = useState<File[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   const navigation = useNavigate();
   const { token } = useAuth();
   const idQuadra = location.state.id;
 
-  const avaliacoes = [
-    {
-      estrelas: 5,
-      comentario:
-        "A quadra é excelente, com piso em ótimas condições e iluminação perfeita para jogos noturnos. Recomendo!",
-      nome: "Lucas Ferreira",
-      cargo: "Jogador de Futebol Amador",
-    },
-    {
-      estrelas: 4,
-      comentario:
-        "Gostei muito da organização e limpeza do espaço. Apenas acho que poderia ter mais vagas de estacionamento.",
-      nome: "Mariana Oliveira",
-      cargo: "Treinadora de Vôlei",
-    },
-    {
-      estrelas: 3,
-      comentario:
-        "A quadra é boa, mas o equipamento de basquete estava um pouco desgastado. Seria ótimo se fosse renovado.",
-      nome: "Pedro Santos",
-      cargo: "Basqueteiro",
-    },
-    {
-      estrelas: 5,
-      comentario:
-        "Espaço incrível para futsal. Fui com meus amigos e todos adoraram. Pretendemos voltar em breve!",
-      nome: "Ana Souza",
-      cargo: "Estudante e Jogadora de Futsal",
-    },
-    {
-      estrelas: 4,
-      comentario:
-        "Boa experiência! Quadra bem localizada e equipe atenciosa. Apenas a ventilação poderia ser melhor.",
-      nome: "João Lima",
-      cargo: "Organizador de Eventos Esportivos",
-    },
-  ];
+  useEffect(() => {
+    getReviews();
+  }, []);
 
   const responsive = {
     desktop: {
@@ -115,14 +84,11 @@ const EditarQuadra = () => {
 
   const excluirQuadra = async () => {
     try {
-      const response = await Axios.delete(
-        `/quadra/excluir/${idQuadra}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await Axios.delete(`/quadra/excluir/${idQuadra}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       window.alert("Quadra excluida com sucesso");
       console.log(response.data);
@@ -130,8 +96,7 @@ const EditarQuadra = () => {
       console.log(error);
       window.alert("Erro ao excluir quadra");
     }
-  }
-
+  };
 
   const atualizarQuadra = async () => {
     try {
@@ -158,6 +123,20 @@ const EditarQuadra = () => {
     }
   };
 
+  const getReviews = async () => {
+    try {
+      const response = await Axios.get(`/review/visualizar/${idQuadra}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setReviews(response.data.reviews);
+
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className={styles.editarQuadra}>
       <Header currentTab="minhasQuadras" />
@@ -281,7 +260,9 @@ const EditarQuadra = () => {
             >
               Visualizar reservas
             </button>
-            <button className={styles.deleteButton} onClick={excluirQuadra}>Excluir quadra</button>{" "}
+            <button className={styles.deleteButton} onClick={excluirQuadra}>
+              Excluir quadra
+            </button>{" "}
             {/* colocar modal de confirmação*/}
           </div>
         </div>
@@ -300,7 +281,7 @@ const EditarQuadra = () => {
             partialVisible={true}
             centerMode={false}
           >
-            {avaliacoes.map((avaliacao, index) => (
+            {reviews.map((review, index) => (
               <div
                 key={index}
                 style={{
@@ -310,15 +291,17 @@ const EditarQuadra = () => {
                 }}
               >
                 <CardReview
-                  key={index}
-                  estrelas={avaliacao.estrelas}
-                  comentario={avaliacao.comentario}
-                  nome={avaliacao.nome}
+                  key={review.idReview}
+                  estrelas={review.nota}
+                  comentario={review.comentario}
+                  nome={review.titulo}
                 />
               </div>
             ))}
           </Carousel>
         </div>
+
+        
       </div>
     </div>
   );
