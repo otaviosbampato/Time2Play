@@ -131,12 +131,12 @@
   justify-content: center;
   align-items: center;
   transition: transform 0.2s ease, opacity 0.2s ease;
-  height: 100%; 
+  height: 100%;
 }
 
 .mostrarSenha:hover {
-    transform: scale(1.2);
-    opacity: 0.8;
+  transform: scale(1.2);
+  opacity: 0.8;
 }
 
 .formsButton {
@@ -202,8 +202,6 @@
   position: relative;
 }
 
-
-
 /* =========================================== MODAL ==============================================*/
 .modal-overlay {
   position: fixed;
@@ -250,7 +248,7 @@
 .modal-input {
   width: 90%;
   padding: 8px;
-  margin-bottom: 30px; 
+  margin-bottom: 30px;
   border: 1px solid #ccc;
   height: 30px;
   font-size: 18px;
@@ -325,10 +323,6 @@
   text-align: left;
 }
 
-
-
-
-
 @media (max-height: 550px) {
   .modal {
     height: 80%;
@@ -341,5 +335,4 @@
     transition: opacity 0.5s ease-in-out;
     position: relative;
   }
-  
 }
