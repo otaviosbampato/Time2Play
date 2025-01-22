@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import prisma from "../db/prisma";
+import prisma from "../model/prisma";
 
 import { verifyUserEmail } from "../services/mail";
 

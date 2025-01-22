@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { realizarReview } from '../controller/review';
-import prisma from '../db/prisma';
+import prisma from '../model/prisma';
 
-jest.mock('../db/prisma', () => ({
+jest.mock('../model/prisma', () => ({
   quadra: {
     findUnique: jest.fn(),
   },

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { cancelarReview } from '../controller/review';
-import prisma from '../db/prisma';
+import prisma from '../model/prisma';
 
-jest.mock('../db/prisma', () => ({
+jest.mock('../model/prisma', () => ({
   review: {
     findUnique: jest.fn(),
     delete: jest.fn(),

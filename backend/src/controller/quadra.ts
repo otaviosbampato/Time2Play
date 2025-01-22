@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import prisma from "../db/prisma";
+import prisma from "../model/prisma";
 import { ParamsDictionary } from 'express-serve-static-core';
 import { ParsedQs } from 'qs';
 

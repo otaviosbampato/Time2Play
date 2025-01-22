@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import prisma from "../db/prisma";
+import prisma from "../model/prisma";
 
 export const realizarReview = async (req: Request, res: Response) => {
   try {
