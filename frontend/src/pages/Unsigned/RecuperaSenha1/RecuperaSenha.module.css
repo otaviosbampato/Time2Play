@@ -178,12 +178,11 @@
 }
 
 @media (max-width: 680px) {
-    .formBox {
-      width: 80%;
-    }
-
-    .circle {
-        margin-bottom: 20px;
-    }
+  .formBox {
+    width: 80%;
   }
-  
+
+  .circle {
+    margin-bottom: 20px;
+  }
+}

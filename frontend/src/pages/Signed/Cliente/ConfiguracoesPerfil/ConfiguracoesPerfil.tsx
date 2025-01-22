@@ -40,7 +40,11 @@ const ConfiguracoesPerfil: React.FC<ConfiguracoesPerfilProps> = ({
               Segurança
             </li>
             <li className={styles.menuItem}>
-              <img src={historico} alt="Meu histórico" className={styles.icon} />
+              <img
+                src={historico}
+                alt="Meu histórico"
+                className={styles.icon}
+              />
               Meu histórico
             </li>
           </ul>
