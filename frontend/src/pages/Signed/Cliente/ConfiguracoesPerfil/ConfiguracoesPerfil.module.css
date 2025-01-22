@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Poppins', serif;
+  font-family: "Poppins", serif;
 }
 
 .menu {
@@ -62,7 +62,7 @@
 .title {
   font-size: 24px;
   font-weight: bold;
-  font-family: 'Poppins', serif;
+  font-family: "Poppins", serif;
   color: #333333;
 }
 
@@ -76,7 +76,7 @@
 .label {
   margin-bottom: 16px;
   font-size: 14px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #666666;
 }
 
@@ -105,9 +105,8 @@
   box-shadow: 0 0 5px #0d4a3a;
 }
 
-
 .input::placeholder {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .buttonContainer {
@@ -117,7 +116,7 @@
 }
 
 .saveButton {
-  background-color: #0D4A3A;
+  background-color: #0d4a3a;
   color: white;
   padding: 8px 16px;
   border: none;
@@ -144,8 +143,6 @@
   background-color: #f9f9f9;
 }
 
-
-
 .menuItem {
   display: flex;
   align-items: center;
@@ -162,8 +159,6 @@
   height: 20px;
   margin-right: 10px;
 }
-
-
 
 @media (max-width: 700px) {
   .container {
@@ -218,5 +213,4 @@
   .cancelButton {
     width: 100%;
   }
-
 }
