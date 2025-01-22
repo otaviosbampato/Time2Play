@@ -27,3 +27,5 @@ app.use("/auth", authRoutes);
 app.listen(PORT, () => {
   console.log(`servidor na porta ${PORT}`);
 });
+
+export default app;
