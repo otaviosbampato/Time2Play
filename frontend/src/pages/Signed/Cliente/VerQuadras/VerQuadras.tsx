@@ -121,8 +121,8 @@ export default function VerQuadras() {
 
               <div className={styles.cardContent}>
                 <div>
-                <h2 className={styles.quadraNome}>{quadra.nomeQuadra}</h2>
-                <p>{}</p>
+                  <h2 className={styles.quadraNome}>{quadra.nomeQuadra}</h2>
+                  <p>{}</p>
                 </div>
 
                 <div className={styles.esporteTag}>

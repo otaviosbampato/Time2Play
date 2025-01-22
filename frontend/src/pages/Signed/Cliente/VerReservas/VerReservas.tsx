@@ -79,7 +79,7 @@ export default function VerReservas() {
 
       console.log(response.data);
 
-      window.alert("Reserva cancelada com sucesso ")
+      window.alert("Reserva cancelada com sucesso ");
     } catch (error) {
       window.alert("Erro ao excluir reserva");
     }
