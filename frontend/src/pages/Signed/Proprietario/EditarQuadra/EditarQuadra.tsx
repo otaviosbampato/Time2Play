@@ -300,8 +300,6 @@ const EditarQuadra = () => {
             ))}
           </Carousel>
         </div>
-
-        
       </div>
     </div>
   );
