@@ -132,9 +132,8 @@
   background-color: #1e7f47;
 }
 
-
 .rangeInput {
-  accent-color: #0D4A3A;
+  accent-color: #0d4a3a;
 }
 
 @media (max-width: 680px) {
@@ -153,8 +152,3 @@
     text-align: center;
   }
 }
-
-
-
-
-

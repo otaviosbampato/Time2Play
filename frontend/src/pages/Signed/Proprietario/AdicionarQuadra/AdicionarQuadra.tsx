@@ -51,8 +51,8 @@ const AdicionarQuadra: React.FC = () => {
       );
 
       console.log(response.data);
-      console.log(response.data.novaQuadra.idQuadra)
-      console.log(imagens[0])
+      console.log(response.data.novaQuadra.idQuadra);
+      console.log(imagens[0]);
 
       if (imagens.length > 0 && response.data.novaQuadra.idQuadra) {
         const formData = new FormData();
@@ -71,13 +71,13 @@ const AdicionarQuadra: React.FC = () => {
           }
         );
 
-        console.log(imagensResponse)
+        console.log(imagensResponse);
 
         window.alert("Quadra adicionada com sucesso!");
       }
     } catch (error) {
       console.log(error);
-      window.alert("erro ao adicionar quadra")
+      window.alert("erro ao adicionar quadra");
     }
   };
 
