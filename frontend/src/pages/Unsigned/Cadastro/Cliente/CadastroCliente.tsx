@@ -21,8 +21,8 @@ export default function CadastroCliente() {
         nome,
         senha,
       });
-      window.alert("registrado com sucesso");
       console.log(response.data);
+      navigate("/");
     } catch (error) {
       console.log("Erro");
     }
@@ -39,14 +39,12 @@ export default function CadastroCliente() {
 
       <div className={styles.centralizer}>
         <div className={styles.formBox}>
-          <div style={{ height: "8%", paddingTop: "20px" }}>
-            <img className={styles.logo} src="src/assets/logo-README.png" />
-          </div>
-          <h2 className={styles.title}>Cadastro</h2>
+          <div className={styles.formBoxItems}>
           <input
             type="text"
             placeholder="nome"
             className={styles.input}
+            style={{marginTop: 40}}
             onChange={(e) => setNome(e.target.value)}
           />
           <input
@@ -74,7 +72,7 @@ export default function CadastroCliente() {
             <p>cadastrar</p>
           </button>
           <div className={styles.divisor} />
-          <a href="" className={styles.loginPrompt}>
+          <a href="" className={styles.loginPrompt} onClick={() => navigate("/")}>
             Já possui uma conta? Login
           </a>
           <button className={styles.botaoCadastrar} onClick={() => navigate("/cadastroProprietario")}>
@@ -82,6 +80,7 @@ export default function CadastroCliente() {
               quero anunciar quadras
             </p>
           </button>
+          </div>
         </div>
       </div>
       <Footer />
