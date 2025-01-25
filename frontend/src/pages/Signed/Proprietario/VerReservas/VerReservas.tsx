@@ -1,30 +1,85 @@
 import Header from "../../../../shared/components/HeaderProprietario/Header";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardReserva from "../../../../shared/components/CardReserva/CardReserva";
 import DateSelector from "../../../../shared/components/DateSelector/DateSelector";
 import styles from "./VerReservas.module.css";
+import Axios from "../../../../shared/context/Axios";
+import { useAuth } from "../../../../shared/context/AuthProvider";
+import { useLocation } from "react-router-dom";
+
+interface Horario {
+  idHorario: number;
+  dataInicio: string;
+  dataFim: string;
+  reservaId: number;
+}
+
+interface Cliente {
+  idCliente: number;
+  email: string;
+  nome: string;
+}
+
+interface Transacao {
+  idTransacao: number;
+  valor: number;
+  status: string;
+  metodoPagamento: string;
+  data: string;
+}
+
+interface Reserva {
+  idReserva: number;
+  data: string;
+  clienteId: number;
+  quadraId: number;
+  cliente: Cliente;
+  horarios: Horario[];
+  transacao: Transacao;
+}
 
 export default function VerReservas() {
-  const [selectedDate, setSelectedDate] = useState<String>("");
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [reservas, setReservas] = useState<Reserva[]>([]);
+  const { token } = useAuth();
 
-  const reservas = [
-    { id: 1, nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 2, nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-    { id: 3, nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 4, nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-    { id: 5, nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 6, nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-    { id: 7, nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 8, nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-    { id: 9, nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 10, nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-    { id: 11, nomeCliente: "João Silva", horario: "12h - 13h" },
-    { id: 12, nomeCliente: "Maria Oliveira", horario: "13h - 14h" },
-  ];
+  const location = useLocation();
+
+  const idQuadra = location.state;
+
+  useEffect(() => {
+    getReservas();
+  }, []);
+
+  const getReservas = async () => {
+    try {
+      const response = await Axios.get(`/reserva/quadra/${idQuadra}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(response.data);
+      setReservas(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar reservas:", error);
+    }
+  };
 
   const handleExcluirReserva = (id: number) => {
-    console.log(`Reserva com ID ${id} excluída.`);
+    try {
+      const response = Axios.delete(`/reserva/excluir/${idQuadra}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      console.log(response);
+      window.alert("Reserva excluída com sucesso")
+    } catch (error) {
+      console.log(error)
+      window.alert("Erro ao excluir reserva")
+    }
   };
 
   return (
@@ -37,19 +92,21 @@ export default function VerReservas() {
           display: "flex",
           justifyContent: "center",
           width: "100%",
-          marginBottom: 40
+          marginBottom: 40,
         }}
       >
-        <DateSelector onChange={(date: String) => setSelectedDate(date)} />
+        <DateSelector onChange={(date: string) => setSelectedDate(date)} />
       </div>
 
       <div className={styles.reservasContainer}>
         {reservas.map((reserva) => (
           <CardReserva
-            key={reserva.id}
-            nomeCliente={reserva.nomeCliente}
-            horario={reserva.horario}
-            onExcluir={() => handleExcluirReserva(reserva.id)}
+            key={reserva.idReserva}
+            nomeCliente={reserva.cliente.nome}
+            horario={`${new Date(reserva.horarios[0].dataInicio).toLocaleTimeString()} - ${new Date(
+              reserva.horarios[reserva.horarios.length - 1].dataFim
+            ).toLocaleTimeString()}`}
+            onExcluir={() => handleExcluirReserva(reserva.idReserva)}
           />
         ))}
       </div>

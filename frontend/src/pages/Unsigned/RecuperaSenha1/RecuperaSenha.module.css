@@ -68,7 +68,7 @@
   height: 5vw;
 }
 
-input {
+.input {
   display: flex;
   margin-top: 2vw;
   width: 75%;
@@ -80,18 +80,19 @@ input {
   background-color: #ebebeb;
   font-size: 16px;
   font-family: Arial, sans-serif;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 1);
   transition: all 0.1s ease;
-  box-sizing: border-box; /* pro tamanho nÃ£o ser afetado por font-size, padding, etc. */
+  box-sizing: border-box; /* pro tamanho não ser afetado por font-size, padding, etc. */
 }
 
-input::placeholder {
+.input::placeholder {
   color: #0d4a3a;
   font-size: 16px;
   font-family: "Poppins", serif;
   font-weight: 600;
 }
 
-input:focus {
+.input:focus {
   background-color: #fff;
   box-shadow: 0 0 5px #0d4a3a;
 }
@@ -177,12 +178,11 @@ input:focus {
 }
 
 @media (max-width: 680px) {
-    .formBox {
-      width: 80%;
-    }
-
-    .circle {
-        margin-bottom: 20px;
-    }
+  .formBox {
+    width: 80%;
   }
-  
+
+  .circle {
+    margin-bottom: 20px;
+  }
+}

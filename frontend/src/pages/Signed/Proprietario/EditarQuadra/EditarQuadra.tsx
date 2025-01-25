@@ -1,73 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Header from "../../../../shared/components/HeaderProprietario/Header";
 import CardReview from "../../../../shared/components/CardReview/CardReview";
 import CarrosselImagens from "../../../../shared/components/CarrosselImagens/CarrosselImagens";
+
 import uploadDeFoto from "../../../../assets/uploadDeFoto.png";
 
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import styles from "./EditarQuadra.module.css";
 import "react-multi-carousel/lib/styles.css";
 import Carousel from "react-multi-carousel";
 
-interface Quadra {
-  id: string;
-  localizacao: string;
-  esporte: string;
-  descricao: string;
-  preco: number;
-  imagens: File[];
+import { useNavigate } from "react-router-dom";
+import Axios from "../../../../shared/context/Axios";
+import { useAuth } from "../../../../shared/context/AuthProvider";
+
+interface Imagem {
+  url: string;
 }
 
-interface EditarQuadraProps {
-  quadra: Quadra;
+interface Review {
+  idReview: number;
+  nota: number;
+  titulo: string;
+  comentario: string;
+  data: string;
+  quadraId: number;
+  clienteId: number;
 }
 
-const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
-  const [localizacao, setLocalizacao] = useState(quadra.localizacao);
-  const [esporte, setEsporte] = useState(quadra.esporte);
-  const [descricao, setDescricao] = useState(quadra.descricao);
-  const [preco, setPreco] = useState(quadra.preco);
-  const [imagens, setImagens] = useState<File[]>(quadra.imagens);
+const EditarQuadra = () => {
+  const location = useLocation();
 
-  const avaliacoes = [
-    {
-      estrelas: 5,
-      comentario:
-        "A quadra é excelente, com piso em ótimas condições e iluminação perfeita para jogos noturnos. Recomendo!",
-      nome: "Lucas Ferreira",
-      cargo: "Jogador de Futebol Amador",
-    },
-    {
-      estrelas: 4,
-      comentario:
-        "Gostei muito da organização e limpeza do espaço. Apenas acho que poderia ter mais vagas de estacionamento.",
-      nome: "Mariana Oliveira",
-      cargo: "Treinadora de Vôlei",
-    },
-    {
-      estrelas: 3,
-      comentario:
-        "A quadra é boa, mas o equipamento de basquete estava um pouco desgastado. Seria ótimo se fosse renovado.",
-      nome: "Pedro Santos",
-      cargo: "Basqueteiro",
-    },
-    {
-      estrelas: 5,
-      comentario:
-        "Espaço incrível para futsal. Fui com meus amigos e todos adoraram. Pretendemos voltar em breve!",
-      nome: "Ana Souza",
-      cargo: "Estudante e Jogadora de Futsal",
-    },
-    {
-      estrelas: 4,
-      comentario:
-        "Boa experiência! Quadra bem localizada e equipe atenciosa. Apenas a ventilação poderia ser melhor.",
-      nome: "João Lima",
-      cargo: "Organizador de Eventos Esportivos",
-    },
-  ];
+  const [localizacao, setLocalizacao] = useState(location.state.localizacao);
+  const [esporte, setEsporte] = useState(location.state.esporte);
+  const [nomeQuadra, setnomeQuadra] = useState(location.state.nomeQuadra);
+  const [preco, setPreco] = useState(location.state.preco);
+  const [imagens, setImagens] = useState<Imagem[]>(location.state.imagens);
+  const [imagensCarregadas, setImagensCarregadas] = useState<File[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
+
+  const navigation = useNavigate();
+  const { token } = useAuth();
+  const idQuadra = location.state.id;
+
+  useEffect(() => {
+    getReviews();
+  }, []);
 
   const responsive = {
     desktop: {
@@ -90,19 +70,97 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files);
-      setImagens((prev) => [...prev, ...filesArray]);
+      setImagensCarregadas((prev) => [...prev, ...filesArray]);
     }
+  };
+
+  const removeImageCarregada = (index: number) => {
+    setImagensCarregadas((prev) => prev.filter((_, i) => i !== index));
   };
 
   const removeImage = (index: number) => {
     setImagens((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert("Quadra atualizada com sucesso!");
+  const excluirQuadra = async () => {
+    try {
+      const response = await Axios.delete(`/quadra/excluir/${idQuadra}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      window.alert("Quadra excluida com sucesso");
+      console.log(response.data);
+
+      navigation("/minhasQuadras");
+    } catch (error) {
+      console.log(error);
+      window.alert("Erro ao excluir quadra");
+    }
   };
 
+  const atualizarQuadra = async () => {
+    try {
+      const response = await Axios.put(
+        `/quadra/editar/${idQuadra}`,
+        {
+          nomeQuadra: nomeQuadra,
+          precoHora: preco,
+          esporte: esporte,
+          endereco: localizacao,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (imagensCarregadas.length > 0) {
+        const formData = new FormData();
+        imagensCarregadas.forEach((imagem) => {
+          formData.append("images", imagem);
+        });
+
+        const imagensResponse = await Axios.put(
+          `/quadra/atualizarQuadra/${idQuadra}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        console.log(imagensResponse);
+      }
+
+      window.alert("Quadra atualizada com sucesso");
+      console.log(response.data);
+
+      navigation("/minhasQuadras");
+    } catch (error) {
+      console.log(error);
+      window.alert("Erro ao atualizar quadra");
+    }
+  };
+
+  const getReviews = async () => {
+    try {
+      const response = await Axios.get(`/review/visualizar/${idQuadra}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setReviews(response.data.reviews);
+
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className={styles.editarQuadra}>
       <Header currentTab="minhasQuadras" />
@@ -110,7 +168,7 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
       <h2 className={styles.title}>Informações sobre a quadra:</h2>
 
       <div className={styles.container}>
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.form}>
           <div className={styles.formLine}>
             <div className={styles.formGroup}>
               <label className={styles.label} htmlFor="localizacao">
@@ -151,14 +209,14 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
 
           <div className={styles.formLine}>
             <div className={styles.formGroup}>
-              <label className={styles.label} htmlFor="descricao">
-                Descrição *
+              <label className={styles.label} htmlFor="nomeQuadra">
+                Nome da quadra *
               </label>
               <textarea
                 className={styles.textarea}
-                id="descricao"
-                value={descricao}
-                onChange={(e) => setDescricao(e.target.value)}
+                id="nomeQuadra"
+                value={nomeQuadra}
+                onChange={(e) => setnomeQuadra(e.target.value)}
                 placeholder="Descrição sobre a quadra"
                 required
               ></textarea>
@@ -202,17 +260,36 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
             />
           </div>
 
-          <CarrosselImagens images={imagens} onRemoveImage={removeImage} />
+          <CarrosselImagens
+            images={imagens}
+            onRemoveImage={removeImage}
+            title="Imagens da quadra"
+          />
+
+          <CarrosselImagens
+            images={imagensCarregadas.map((file) => ({
+              url: URL.createObjectURL(file),
+            }))}
+            onRemoveImage={removeImageCarregada}
+            title="Novas imagens"
+          />
 
           <div className={styles.submitButtonContainer}>
-            <button type="submit" className={styles.submitButton}>
+            <button className={styles.submitButton} onClick={atualizarQuadra}>
               Atualizar quadra
             </button>
-            <Link className={styles.submitButton} to="/verReservas">Visualizar reservas</Link>
-            <button className={styles.deleteButton}>Excluir quadra</button>{" "}
+            <button
+              className={styles.submitButton}
+              onClick={() => navigation("/verReservas", { state: idQuadra })}
+            >
+              Visualizar reservas
+            </button>
+            <button className={styles.deleteButton} onClick={excluirQuadra}>
+              Excluir quadra
+            </button>{" "}
             {/* colocar modal de confirmação*/}
           </div>
-        </form>
+        </div>
 
         <div>
           <Carousel
@@ -226,9 +303,9 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
             dotListClass="custom-dot-list-style"
             itemClass="carousel-item-padding"
             partialVisible={true}
-            centerMode={false} 
+            centerMode={false}
           >
-            {avaliacoes.map((avaliacao, index) => (
+            {reviews.map((review, index) => (
               <div
                 key={index}
                 style={{
@@ -238,10 +315,10 @@ const EditarQuadra: React.FC<EditarQuadraProps> = ({ quadra }) => {
                 }}
               >
                 <CardReview
-                  key={index}
-                  estrelas={avaliacao.estrelas}
-                  comentario={avaliacao.comentario}
-                  nome={avaliacao.nome}
+                  key={review.idReview}
+                  estrelas={review.nota}
+                  comentario={review.comentario}
+                  nome={review.titulo}
                 />
               </div>
             ))}

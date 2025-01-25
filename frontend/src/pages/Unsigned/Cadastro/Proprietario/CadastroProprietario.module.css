@@ -1,0 +1,205 @@
+.html {
+  font-size: 16px;
+}
+
+.background {
+  display: flex;
+  background-color: #f3f2f0;
+  height: 100vh;
+  width: 100%;
+}
+
+.centralizer {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.logoContainer {
+  margin-top: 2%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logoTransparente {
+  width: 10vw;
+  height: auto;
+}
+
+.formBox {
+  width: 32%;
+  overflow: hidden;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.15);
+  color: white;
+  flex-direction: column;
+}
+
+.logo {
+  height: 100%;
+}
+
+.title {
+  margin-top: -2%;
+  color: #0d4a3a;
+  font-family: "Poppins", serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 1.3rem, 2rem);
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.input {
+  display: flex;
+  margin-top: 1vw;
+  width: 75%;
+  height: 6%;
+  border: none;
+  outline: none;
+  padding-inline: 10px 20px;
+  border-radius: 8px;
+  background-color: #ebebeb;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 1);
+  transition: all 0.1s ease;
+  box-sizing: border-box;
+  /* pro tamanho não ser afetado por font-size, padding, etc. */
+}
+
+.inputEmail {
+  composes: input;
+  padding: 0px 0 px;
+}
+
+.input::placeholder {
+  color: #0d4a3a79;
+  font-size: 16px;
+  font-family: "Poppins", serif;
+  font-weight: 600;
+}
+
+.input:focus {
+  background-color: #fff;
+  box-shadow: 0 0 5px #0d4a3a;
+}
+
+.bottomTextDiv {
+  justify-content: center;
+  width: 80%;
+  justify-self: center;
+  text-align-last: center;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.bottomText {
+  font-size: 14px;
+  color: black;
+  font-family: "Poppins", serif;
+  font-weight: 500;
+}
+
+.botaoContinuar {
+  text-align: center;
+  margin-top: 2vw;
+  width: 75%;
+  padding: 10px 10px;
+  background-color: #092b22;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  box-sizing: border-box;
+  transition: all 0.1s ease;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.botaoContinuar:hover {
+  background-color: #fff;
+  color: #092b22;
+  box-shadow: 0 0 5px #092b22;
+  cursor: pointer;
+  border: none;
+}
+
+.divisor {
+  margin-top: 4vh;
+  margin-bottom: 3vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 77%;
+  height: 2px;
+  background-color: #092b22;
+}
+
+a:link {
+  color: gray;
+  /* Color for unvisited links */
+}
+
+a:visited {
+  color: rgba(71, 0, 97, 0.319);
+  /* Color for visited links */
+}
+
+.loginPrompt {
+  font-family: "Poppins", serif;
+  font-weight: 600;
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
+.botaoCadastrar {
+  margin-top: 10px;
+  text-align: center;
+  width: 75%;
+  padding: 10px 20px;
+  background-color: #2064c9;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  box-sizing: border-box;
+  transition: all 0.1s ease;
+  box-shadow: 0 0 5px #0586e1;
+}
+
+.botaoCadastrar:hover {
+  cursor: pointer;
+  background-color: #fff;
+  color: #2064c9;
+  box-shadow: 0 0 5px #2064c9;
+}
+
+@media (max-width: 900px) {
+  .formBox {
+    width: 60%;
+  }
+}
+
+@media (max-width: 680px) {
+  .formBox {
+    width: 80%;
+  }
+
+  .circle {
+    margin-bottom: 20px;
+  }
+}

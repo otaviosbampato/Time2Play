@@ -7,12 +7,21 @@ import uploadDeFoto from "../../../../assets/uploadDeFoto.png";
 import styles from "./AdicionarQuadra.module.css";
 import "react-multi-carousel/lib/styles.css";
 
+import Axios from "../../../../shared/context/Axios";
+import { useAuth } from "../../../../shared/context/AuthProvider";
+import { useNavigate } from "react-router-dom";
+
 const AdicionarQuadra: React.FC = () => {
+  const { token } = useAuth();
+
+  const navigate = useNavigate();
+
+  const [imagens, setImagens] = useState<File[]>([]);
+
+  const [nomeQuadra, setNomeQuadra] = useState<string>();
+  const [preco, setPreco] = useState(75);
   const [localizacao, setLocalizacao] = useState("");
   const [esporte, setEsporte] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [preco, setPreco] = useState(75);
-  const [imagens, setImagens] = useState<File[]>([]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -25,15 +34,55 @@ const AdicionarQuadra: React.FC = () => {
     setImagens((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({
-      localizacao,
-      esporte,
-      descricao,
-      preco,
-    });
-    alert("Quadra adicionada com sucesso!");
+
+    try {
+      const response = await Axios.post(
+        "/quadra/cadastrar",
+        {
+          nomeQuadra,
+          precoHora: preco,
+          endereco: localizacao,
+          esporte: esporte,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+      console.log(response.data.novaQuadra.idQuadra);
+      console.log(imagens[0]);
+
+      if (imagens.length > 0 && response.data.novaQuadra.idQuadra) {
+        const formData = new FormData();
+        imagens.forEach((imagem) => {
+          formData.append("images", imagem);
+        });
+
+        const imagensResponse = await Axios.put(
+          `/quadra/atualizarQuadra/${response.data.novaQuadra.idQuadra}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        console.log(imagensResponse);
+
+        window.alert("Quadra adicionada com sucesso!");
+        navigate("/minhasQuadras");
+      }
+    } catch (error) {
+      console.log(error);
+      window.alert("erro ao adicionar quadra");
+    }
   };
 
   return (
@@ -85,14 +134,14 @@ const AdicionarQuadra: React.FC = () => {
           <div className={styles.formLine}>
             <div className={styles.formGroup}>
               <label className={styles.label} htmlFor="descricao">
-                Descrição *
+                Nome da quadra *
               </label>
               <textarea
                 className={styles.textarea}
                 id="descricao"
-                value={descricao}
-                onChange={(e) => setDescricao(e.target.value)}
-                placeholder="Descrição sobre a quadra"
+                value={nomeQuadra}
+                onChange={(e) => setNomeQuadra(e.target.value)}
+                placeholder="Nome da quadra"
                 required
               ></textarea>
             </div>

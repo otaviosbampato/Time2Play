@@ -1,0 +1,54 @@
+.inputContainer {
+    display: flex;
+    position: relative;
+    margin-top: 2vw;
+    width: 75%;
+    height: 10%;
+  }
+
+  .input {
+    width: 92%;
+    padding: 4%;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    background-color: #ebebeb;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 1);
+    transition: all 0.1s ease;
+  }
+
+  .input::placeholder {
+    color: #0d4a3a;
+    font-size: 16px;
+    font-family: "Poppins", serif;
+    font-weight: 600;
+  }
+  
+  .input:focus {
+    background-color: #fff;
+    box-shadow: 0 0 5px #0d4a3a;
+  }
+
+  .mostrarSenha {
+    position: absolute;
+    right: 10px;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    font-size: 1.2em;
+    color: #0d4a3a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s ease;
+    height: 100%; 
+  }
+  
+  .mostrarSenha:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+  }
