@@ -36,7 +36,7 @@ const EditarQuadra = () => {
   const [localizacao, setLocalizacao] = useState(location.state.localizacao);
   const [esporte, setEsporte] = useState(location.state.esporte);
   const [nomeQuadra, setnomeQuadra] = useState(location.state.nomeQuadra);
-  const [preco, setPreco] = useState(location.state.precoHora);
+  const [preco, setPreco] = useState(location.state.preco);
   const [imagens, setImagens] = useState<Imagem[]>(location.state.imagens);
   const [imagensCarregadas, setImagensCarregadas] = useState<File[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -92,6 +92,8 @@ const EditarQuadra = () => {
 
       window.alert("Quadra excluida com sucesso");
       console.log(response.data);
+
+      navigation("/minhasQuadras");
     } catch (error) {
       console.log(error);
       window.alert("Erro ao excluir quadra");
@@ -115,8 +117,30 @@ const EditarQuadra = () => {
         }
       );
 
+      if (imagensCarregadas.length > 0) {
+        const formData = new FormData();
+        imagensCarregadas.forEach((imagem) => {
+          formData.append("images", imagem);
+        });
+
+        const imagensResponse = await Axios.put(
+          `/quadra/atualizarQuadra/${idQuadra}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        console.log(imagensResponse);
+      }
+
       window.alert("Quadra atualizada com sucesso");
       console.log(response.data);
+
+      navigation("/minhasQuadras");
     } catch (error) {
       console.log(error);
       window.alert("Erro ao atualizar quadra");
@@ -239,7 +263,7 @@ const EditarQuadra = () => {
           <CarrosselImagens
             images={imagens}
             onRemoveImage={removeImage}
-            title="Imagens da API"
+            title="Imagens da quadra"
           />
 
           <CarrosselImagens
@@ -247,7 +271,7 @@ const EditarQuadra = () => {
               url: URL.createObjectURL(file),
             }))}
             onRemoveImage={removeImageCarregada}
-            title="Imagens Carregadas"
+            title="Novas imagens"
           />
 
           <div className={styles.submitButtonContainer}>

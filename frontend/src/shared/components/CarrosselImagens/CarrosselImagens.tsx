@@ -5,9 +5,9 @@ import "react-multi-carousel/lib/styles.css";
 import styles from "./CarrosselImagens.module.css";
 
 interface ImageCarouselProps {
-  images: Image[];
+  images: Image[] | File[];
   onRemoveImage: (index: number) => void;
-  title?: string; // Título opcional
+  title?: string; 
 }
 
 interface Image {
@@ -34,7 +34,20 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     },
   };
 
-  if (images.length === 0) return null;
+  // Função para obter URLs das imagens
+  const getImageUrls = (images: Image[] | File[]): string[] => {
+    return images.map((image) => {
+      if (image instanceof File) {
+        return URL.createObjectURL(image); // Para File[]
+      } else {
+        return image.url; // Para Image[]
+      }
+    });
+  };
+
+  const imageUrls = getImageUrls(images);
+
+  if (imageUrls.length === 0) return null;
 
   return (
     <div className={styles.carouselWrapper}>
@@ -53,10 +66,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
         showDots={false}
         swipeable
       >
-        {images.map((imagem, index) => (
+        {imageUrls.map((url, index) => (
           <div className={styles.carouselItem} key={index}>
             <img
-              src={imagem.url}
+              src={url}
               alt={`Imagem ${index + 1}`}
               className={styles.carouselImg}
             />

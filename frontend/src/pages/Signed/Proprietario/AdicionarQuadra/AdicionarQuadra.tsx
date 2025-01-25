@@ -9,9 +9,12 @@ import "react-multi-carousel/lib/styles.css";
 
 import Axios from "../../../../shared/context/Axios";
 import { useAuth } from "../../../../shared/context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const AdicionarQuadra: React.FC = () => {
   const { token } = useAuth();
+
+  const navigate = useNavigate();
 
   const [imagens, setImagens] = useState<File[]>([]);
 
@@ -74,6 +77,7 @@ const AdicionarQuadra: React.FC = () => {
         console.log(imagensResponse);
 
         window.alert("Quadra adicionada com sucesso!");
+        navigate("/minhasQuadras");
       }
     } catch (error) {
       console.log(error);
