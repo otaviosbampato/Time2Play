@@ -1,0 +1,103 @@
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .selectionContainer {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .cell {
+    text-align: left;
+  }
+  
+  .cell strong {
+    display: block;
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  
+  .dateInput {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .hourGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .hourButton {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .bookedHour {
+    background-color: #ddd;
+    color: #666;
+    cursor: not-allowed;
+  }
+  
+  .availableHour {
+    background-color: white;
+    color: black;
+  }
+  
+  .selectedHour {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .summaryContainer {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  
+  .actionButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .closeButton {
+    background-color: #ccc;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .confirmarButton {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+  

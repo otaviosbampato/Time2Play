@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import prisma from "../db/prisma";
+import prisma from "../model/prisma";
 import bcryptjs from "bcryptjs";
 
 export const registrarProprietario = async (req: Request, res: Response) => {

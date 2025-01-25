@@ -2,7 +2,6 @@
   <img src="./frontend/src/assets/logo-README.png" width="400" />
 </div>
 
-
 # Introdução
 
 **Time2Play** é uma aplicação de aluguel de quadras esportivas que facilita o intermédio entre clientes que desejam praticar esportes e proprietários que desejam alugar suas quadras. 

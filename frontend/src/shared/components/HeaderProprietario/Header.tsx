@@ -5,6 +5,9 @@ import engrenagem from "../../../assets/engrenagem.png";
 import { Link } from "react-router-dom";
 import "./Header.css";
 
+import { useAuth } from "../../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
+
 type HeaderProps = {
   currentTab: "Inicio" | "minhasQuadras" | "adicionarQuadra";
 };
@@ -12,8 +15,28 @@ type HeaderProps = {
 export default function Header({ currentTab }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const auth = useAuth();
+  const navigation = useNavigate()
+
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("email");
+  
+      auth.setEstaLogado(false);
+      auth.setIsProprietario(false)
+      auth.setToken("");
+  
+      console.log("Usuário deslogado");
+  
+      navigation("/");
+    } catch (e) {
+      console.error("Erro ao realizar logout:", e);
+    }
   };
 
   return (
@@ -28,14 +51,6 @@ export default function Header({ currentTab }: HeaderProps) {
       <div className={`header-nav ${menuOpen ? "open" : ""}`}>
         <div className="header-content">
           <div className="header-links">
-            <Link
-              className={`header-link ${
-                currentTab === "Inicio" ? "active" : ""
-              }`}
-              to="/inicio"
-            >
-              Início
-            </Link>
             <Link
               className={`header-link ${
                 currentTab === "minhasQuadras" ? "active" : ""
@@ -61,7 +76,7 @@ export default function Header({ currentTab }: HeaderProps) {
                 alt="Settings"
               />
             </Link>
-            <Link to="/">
+            <Link to="/" onClick={handleLogout}>
               <img
                 src={logout}
                 className="header-icon header-green-circle"

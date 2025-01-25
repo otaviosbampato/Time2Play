@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Quadra" ALTER COLUMN "cidade" DROP NOT NULL,
+ALTER COLUMN "estado" DROP NOT NULL;

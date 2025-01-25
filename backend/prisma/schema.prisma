@@ -4,47 +4,64 @@ datasource db {
 }
 
 model Cliente {
-  idCliente Int       @id @default(autoincrement())
-  email     String    @unique
-  nome      String
-  senha     String
-  reservas  Reserva[]
-  reviews   Review[]
+  idCliente                    Int       @id @default(autoincrement())
+  email                        String    @unique
+  nome                         String
+  senha                        String
+  passwordResetToken           String?
+  passwordResetTokenExpiration DateTime?
+  reservas                     Reserva[]
+  reviews                      Review[]
 }
 
 model Proprietario {
-  idProprietario Int      @id @default(autoincrement())
-  email          String   @unique
-  nome           String
-  senha          String
-  cpfCnpj        String   @unique
-  cidade         String
-  quadras        Quadra[]
+  idProprietario               Int       @id @default(autoincrement())
+  email                        String    @unique
+  nome                         String
+  senha                        String
+  cpfCnpj                      String    @unique
+  cidade                       String
+  passwordResetToken           String?
+  passwordResetTokenExpiration DateTime?
+  quadras                      Quadra[]
 }
 
 model Quadra {
   idQuadra       Int          @id @default(autoincrement())
   nomeQuadra     String
   precoHora      Float
-  cidade         String
-  estado         String
-  endereco       String
-  fotos          String[]
+  cidade         String?
+  estado         String?
+  endereco       String 
+  esporte        String       @default("")
+  fotos          Json         @default("[]")
   reviews        Review[]
   proprietario   Proprietario @relation(fields: [proprietarioId], references: [idProprietario])
   proprietarioId Int
+  Reserva        Reserva[]
 }
 
 // cliente só cria reserva mediante transação.
 // proprietário só recebe o valor após 24h do cliente ter usado a quadra
 // (é o tempo de reclamação que o cliente possui).
 model Reserva {
-  idReserva   Int       @id @default(autoincrement())
-  data        DateTime  @default(now())
-  cliente     Cliente   @relation(fields: [clienteId], references: [idCliente])
+  idReserva   Int              @id @default(autoincrement())
+  data        DateTime         @default(now())
+  cliente     Cliente          @relation(fields: [clienteId], references: [idCliente])
   clienteId   Int
-  transacao   Transacao @relation(fields: [transacaoId], references: [idTransacao])
-  transacaoId Int       @unique
+  transacao   Transacao        @relation(fields: [transacaoId], references: [idTransacao])
+  transacaoId Int              @unique
+  quadra      Quadra           @relation(fields: [quadraId], references: [idQuadra])
+  quadraId    Int
+  horarios    ReservaHorario[]
+}
+
+model ReservaHorario {
+  idHorario  Int      @id @default(autoincrement())
+  dataInicio DateTime
+  dataFim    DateTime
+  reserva    Reserva  @relation(fields: [reservaId], references: [idReserva])
+  reservaId  Int
 }
 
 model Transacao {

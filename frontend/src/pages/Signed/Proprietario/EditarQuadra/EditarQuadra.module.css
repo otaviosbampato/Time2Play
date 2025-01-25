@@ -15,7 +15,6 @@
   flex-direction: column;
   justify-content: center;
   overflow: hidden; /* Adicione esta linha */
-
 }
 
 .form {
@@ -133,18 +132,18 @@
 }
 
 .deleteButton {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .deleteButton:hover {
-    background-color: #c0392b;
+  background-color: #c0392b;
 }
 
 .submitButton:hover {
@@ -184,10 +183,8 @@
   .carousel-container {
     padding: 10px 0;
   }
-  
+
   .carousel-item-padding {
     padding: 5px;
   }
-
 }
-
