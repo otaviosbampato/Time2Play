@@ -192,22 +192,55 @@ export const listarReservasCliente = async (req: Request, res: Response) => {
 
 export const listarReservasQuadra = async (req: Request, res: Response) => {
   try {
-    const { quadraId } = req.params;
+    const { quadraId, data } = req.params;
+
+    const [year, month, day] = data.split('-').map(Number);
+    const dataConsulta = new Date(year, month - 1, day);
 
     const reservas = await prisma.reserva.findMany({
-      where: { quadraId: Number(quadraId) },
+      where: { 
+        quadraId: Number(quadraId),
+        horarios: {
+          some: {
+            dataInicio: {
+              gte: new Date(dataConsulta.setHours(0, 0, 0, 0)),
+              lte: new Date(dataConsulta.setHours(23, 59, 59, 999))
+            }
+          }
+        }
+      },
       include: {
-        cliente: true,
-        horarios: true,
-        transacao: true,
+        horarios: true
       }
     });
 
-    res.json(reservas);
+    const todosHorarios = Array.from({length: 24}, (_, i) => {
+      const hora = i.toString().padStart(2, '0') + ':00';
+      const horarioInicio = new Date(dataConsulta);
+      horarioInicio.setHours(i, 0, 0, 0);
+
+      // Check if this hour is booked
+      const estaReservado = reservas.some(reserva => 
+        reserva.horarios.some(horario => 
+          horario.dataInicio.getTime() === horarioInicio.getTime()
+        )
+      );
+
+      return {
+        hora,
+        disponivel: !estaReservado
+      };
+    });
+
+    res.json({
+      reservas,
+      disponibilidade: todosHorarios
+    });
+
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Erro ao listar reservas da quadra" });
   }
 };
-
 
 export default router;

@@ -7,19 +7,38 @@ import Modal from "react-modal";
 import Header from "../../../../shared/components/HeaderCliente/Header";
 import futebol from "../../../../assets/futebol.jpg";
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import CardReview from "../../../../shared/components/CardReview/CardReview";
 import { Star, Trash2, Edit2 } from "lucide-react";
 
 import EditReview from "../../../../shared/components/EditReview/EditReview";
-import ReservationModal from "../../../../shared/components/ReservationModal/ReservationModal";
+import DateScheduleSelector from "../../../../shared/components/DateScheduleSelector/DateScheduleSelector";
 
 // Configuração para acessibilidade do react-modal
 Modal.setAppElement("#root");
 
 interface Reserva {
   horarios: { dataInicio: string }[];
+}
+
+interface Horario {
+  idHorario: number;
+  dataInicio: string;
+  dataFim: string;
+  reservaId: number;
+}
+
+interface Reserva2 {
+  idReserva: number;
+  data: string;
+  clienteId: number;
+  transacaoId: number;
+  quadraId: number;
+  horarios: Horario[];
 }
 
 interface Quadra {
@@ -42,6 +61,16 @@ interface Review {
   clienteId: number;
 }
 
+interface Available {
+  reservas: Reserva2[];
+  disponibilidade: Disponibilidade[];
+}
+
+interface Disponibilidade {
+  hora: string;
+  disponivel: boolean;
+}
+
 export default function VerQuadra() {
   const location = useLocation();
   const { token, id } = useAuth();
@@ -50,7 +79,7 @@ export default function VerQuadra() {
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
 
   const quadra: Quadra = location.state.quadra; // Recebe os dados da quadra via state
-
+  const [totalPrice, setTotalPrice] = useState(0);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewTitle, setReviewTitle] = useState("");
@@ -61,22 +90,17 @@ export default function VerQuadra() {
   const [media, setMedia] = useState<number>();
   const [reservas, setReservas] = useState<Reserva[]>([]);
 
-  const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
+  const [isReservationModalOpen, setIsReservationModalOpen] =
+    useState<boolean>(false);
+  const [isReservationModalOpen2, setIsReservationModalOpen2] =
+    useState<boolean>(false);
+  2;
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedHours, setSelectedHours] = useState<string[]>([]);
-  const [isDateModalOpen, setIsDateModalOpen] = useState(false);
-  const [isHourModalOpen, setIsHourModalOpen] = useState(false);
-  const [availableHours, setAvailableHours] = useState<
-    { hour: string; isBooked: boolean }[]
-  >([]);
-
-  const handleReservationSubmit = (date: string, hours: string[]) => {
-    setSelectedDate(date);
-    setSelectedHours(hours);
-    setIsReservationModalOpen(false);
-    
-    const totalPrice = hours.length * quadra.precoHora;
-  };
+  const [availableHours, setAvailableHours] = useState<Available>({
+    reservas: [],
+    disponibilidade: [],
+  });
 
   const responsive = {
     desktop: {
@@ -125,16 +149,57 @@ export default function VerQuadra() {
     }
   };
 
+  const openModal = () => setIsReservationModalOpen(true);
+  const closeModal = () => setIsReservationModalOpen(false);
+  const closeModal2 = () => setIsReservationModalOpen2(false);
+
+  const handleDateChange = async (date: Date | null) => {
+    if (date) {
+      const localDate = new Date(
+        date.getTime() - date.getTimezoneOffset() * 60000
+      );
+      setSelectedDate(localDate.toISOString().split("T")[0]);
+    }
+  };
+  const [horariosReserva, setHorariosReserva] = useState<string[]>([]);
+
+  const toggleHourSelection = (hora: string) => {
+    setHorariosReserva(
+      (prevSelectedHours) =>
+        prevSelectedHours.includes(hora)
+          ? prevSelectedHours.filter((h) => h !== hora) // Se já estiver selecionado, remove
+          : [...prevSelectedHours, hora] // Caso contrário, adiciona ao array
+    );
+
+    console.log(horariosReserva);
+  };
+
   const realizarReservas = async () => {
+    const horariosFormatados = horariosReserva.map((horario) => {
+      const [hora, minuto] = horario.split(":").map(Number);
+      const dataInicio = new Date(
+        `${selectedDate}T${hora.toString().padStart(2, "0")}:${minuto
+          .toString()
+          .padStart(2, "0")}:00`
+      );
+
+      const dataFim = new Date(dataInicio.getTime() + 60 * 60 * 1000); // Adicionar 1 hora
+
+      return {
+        dataInicio: dataInicio.toISOString(), // Data de início no formato ISO
+        dataFim: dataFim.toISOString(), // Data de fim no formato ISO
+      };
+    });
+
+    console.log(horariosFormatados);
+
     try {
-      window.alert(quadra.idQuadra);
       const response = await Axios.post(
         `/reserva/cadastrar`,
         {
           clienteId: id,
           quadraId: quadra.idQuadra,
-          horarios: selectedHours,
-          valor: selectedHours.length * quadra.precoHora,
+          horarios: horariosFormatados,
         },
         {
           headers: {
@@ -144,23 +209,43 @@ export default function VerQuadra() {
       );
 
       console.log(response.data);
+      window.alert("Reserva realizada com sucesso!");
     } catch (error) {
       console.log(error);
+      window.alert("Erro ao realiza reserva");
     }
   };
 
   const getReservas = async () => {
     try {
-      const response = await Axios.get(`/reserva/quadra/${quadra.idQuadra}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setReservas(response.data);
+      const response = await Axios.get(
+        `/reserva/quadra/${quadra.idQuadra}/${selectedDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      setAvailableHours(response.data);
+      setIsReservationModalOpen2(true);
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao buscar horários:", error);
     }
   };
+
+  // const getReservas = async (date: string) => {
+  //   try {
+  //     const response = await Axios.get(`/reserva/quadra/${quadra.idQuadra}?data=${date}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setAvailableHours(response.data.disponibilidade);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const getReviews = async () => {
     try {
@@ -190,53 +275,21 @@ export default function VerQuadra() {
     }
   };
 
-  const openDateModal = () => {
-    setIsDateModalOpen(true);
-  };
-
-  const closeDateModal = () => {
-    setIsDateModalOpen(false);
-  };
-
-  const openHourModal = (date: string) => {
-    setSelectedDate(date);
-    setIsHourModalOpen(true);
-  };
-
-  const closeHourModal = () => {
-    setIsHourModalOpen(false);
-  };
-
-  const handleDateSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selected = event.target.value;
-    setSelectedDate(selected);
-    closeDateModal();
-    openHourModal(selected);
-  };
-
-  const toggleHourSelection = (hour: string) => {
-    setSelectedHours((prevSelectedHours) =>
-      prevSelectedHours.includes(hour)
-        ? prevSelectedHours.filter((selectedHour) => selectedHour !== hour)
-        : [...prevSelectedHours, hour]
-    );
-  };
-
-  const generateHourSlots = () => {
-    const hours = [];
-    for (let i = 0; i < 24; i++) {
-      const hour = i.toString().padStart(2, "0") + ":00";
-      const isBooked = reservas.some((reserva) =>
-        reserva.horarios.some(
-          (horario) =>
-            new Date(horario.dataInicio).getTime() ===
-            new Date(`${selectedDate}T${hour}`).getTime()
-        )
-      );
-      hours.push({ hour, isBooked });
-    }
-    setAvailableHours(hours);
-  };
+  // const generateHourSlots = () => {
+  //   const hours = [];
+  //   for (let i = 0; i < 24; i++) {
+  //     const hour = i.toString().padStart(2, "0") + ":00";
+  //     const isBooked = reservas.some((reserva) =>
+  //       reserva.horarios.some(
+  //         (horario) =>
+  //           new Date(horario.dataInicio).getTime() ===
+  //           new Date(`${selectedDate}T${hour}`).getTime()
+  //       )
+  //     );
+  //     hours.push({ hour, isBooked });
+  //   }
+  //   setAvailableHours(hours);
+  // };
 
   const handleEditClick = (review: Review) => {
     setSelectedReview(review);
@@ -288,18 +341,12 @@ export default function VerQuadra() {
     }
   };
 
-  useEffect(() => {
-    if (selectedDate) {
-      generateHourSlots();
-    }
-  }, [selectedDate, reservas]);
+  useEffect(() => {}, [reservas]);
 
   useEffect(() => {
-    getReservas();
+    // getReservas();
     getReviews();
   }, []);
-
-  const totalPrice = selectedHours.length * quadra.precoHora;
 
   return (
     <>
@@ -363,26 +410,30 @@ export default function VerQuadra() {
                   <div className={styles.label}>Data e Horário</div>
                   <div className={styles.value}>
                     {selectedDate
-                      ? `${selectedDate} - ${selectedHours.join(", ")}`
+                      ? (() => {
+                          const dateParts = selectedDate.split("-"); // Divide a data no formato YYYY-MM-DD
+                          const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`; // Converte para DD/MM/YYYY
+                          return `${formattedDate} - ${horariosReserva.join(
+                            ", "
+                          )}`;
+                        })()
                       : "Selecionar"}
                   </div>
                 </button>
               </div>
 
-              <button onClick={openDateModal} className={styles.reservarButton}>
+              <button
+                className={styles.reservarButton}
+                onClick={realizarReservas}
+              >
                 Reservar
               </button>
 
               <div className={styles.totalContainer}>
-                <h3>Total a ser pago: R$ {totalPrice.toFixed(2)}</h3>
-                {selectedHours.length > 0 && (
-                  <button
-                    className={styles.confirmarButton}
-                    onClick={realizarReservas}
-                  >
-                    Confirmar
-                  </button>
-                )}
+                <h3>
+                  Total a ser pago: R${" "}
+                  {horariosReserva.length * quadra.precoHora}
+                </h3>
               </div>
             </div>
           </div>
@@ -523,13 +574,118 @@ export default function VerQuadra() {
           onSave={handleUpdateReview}
         />
 
-        <ReservationModal
+        <Modal
           isOpen={isReservationModalOpen}
-          onClose={() => setIsReservationModalOpen(false)}
-          onSubmit={handleReservationSubmit}
-          availableHours={availableHours}
-          precoHora={quadra.precoHora}
-        />
+          onRequestClose={closeModal}
+          style={{
+            content: {
+              top: "50%",
+              left: "50%",
+              right: "auto",
+              bottom: "auto",
+              marginRight: "-50%",
+              transform: "translate(-50%, -50%)",
+              padding: "20px",
+              borderRadius: "12px",
+            },
+            overlay: {
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+            },
+          }}
+        >
+          <h2 style={{padding: 30}}>Selecione uma Data</h2>
+          <div style={{display: 'flex', justifyContent: 'center', marginBottom: 60}}>
+          <DatePicker
+            selected={
+              selectedDate ? new Date(selectedDate + "T00:00:00") : null
+            }
+            onChange={handleDateChange}
+            dateFormat="yyyy-MM-dd"
+            inline
+          />
+          </div>
+          <div style={{ marginTop: "20px", display: 'flex', flexDirection:'row', justifyContent: 'center' }}>
+            <div>
+              <button
+                onClick={closeModal}
+                style={{ marginRight: "10px" }}
+                className={styles.reservarButton}
+              >
+                Cancelar
+              </button>
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  closeModal();
+                  getReservas();
+                }}
+                disabled={!selectedDate}
+                className={styles.reservarButton}
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </Modal>
+
+        <Modal
+          isOpen={isReservationModalOpen2}
+          onRequestClose={() => setIsReservationModalOpen2(false)}
+          style={{
+            content: {
+              top: "50%",
+              left: "50%",
+              right: "auto",
+              bottom: "auto",
+              transform: "translate(-50%, -50%)",
+              padding: "20px",
+              borderRadius: "12px",
+            },
+            overlay: {
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+            },
+          }}
+        >
+          <div>
+            <h2 style={{ padding: 20 }}>
+              Horários para {selectedDate?.split("-").reverse().join("/")}
+            </h2>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+              <div style={{ width: "100%" }}>
+                {availableHours.disponibilidade.map((item) => (
+                  <button
+                    key={item.hora}
+                    style={{
+                      padding: "10px 20px",
+                      borderRadius: "8px",
+                      cursor: item.disponivel ? "pointer" : "not-allowed", // Desabilita o cursor se não estiver disponível
+                      backgroundColor: item.disponivel
+                        ? horariosReserva.includes(item.hora)
+                          ? "green" // Horários selecionados ficam verdes
+                          : "gray" // Horários disponíveis, mas não selecionados ficam cinza
+                        : "red", // Horários não disponíveis ficam vermelhos
+                      color: "white",
+                      border: "none",
+                      margin: "5px",
+                    }}
+                    disabled={!item.disponivel} // Desabilita o botão se o horário não estiver disponível
+                    onClick={() =>
+                      item.disponivel && toggleHourSelection(item.hora)
+                    } // Alterna a seleção de horários
+                  >
+                    {item.hora}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div style={{ marginTop: "20px" }}>
+              <button onClick={closeModal2} className={styles.reservarButton}>
+                Concluir
+              </button>
+            </div>
+          </div>
+        </Modal>
       </div>
     </>
   );

@@ -9,7 +9,6 @@
 }
 
 .quadraContent {
-  background-color: blue;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -86,6 +85,11 @@
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.reservarButton:hover {
+  background: #156226;
+  transition: "background-color 0.3s ease";
 }
 
 .resumo {
@@ -370,6 +374,7 @@
   background-color: white;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .reservationButton:hover {

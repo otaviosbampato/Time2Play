@@ -17,6 +17,6 @@ router.post("/cadastrar", authMiddleware, realizarReserva);
 router.delete("/cancelar/:id", authMiddleware, cancelarReserva);
 router.delete("/excluir/:quadraId/:reservaId", [authMiddleware, admMiddleware], excluirReservaPorQuadra);
 router.get("/cliente", authMiddleware, listarReservasCliente);
-router.get("/quadra/:quadraId", authMiddleware, listarReservasQuadra);
+router.get("/quadra/:quadraId/:data", authMiddleware, listarReservasQuadra);
 
 export default router;
