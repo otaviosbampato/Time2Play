@@ -10,15 +10,11 @@
 
 O sistema permite que donos de quadras as disponibilizem para locação, e que clientes possam alugá-las para uso. Time2Play gerencia a disponibilidade das quadras e reservas, garantindo uma experiência completa e satisfatória para as partes.
 
-## Prototipação do projeto
-
-### Figma.
-
-## Estágio inicial de desenvolvimento
-
-<img src="./frontend/src/assets/estagioInicial.png" width="200" style="display: block;"/>
-
 # Tecnologias
+
+## Prototipação
+
+Desenvolvido com Figma (v124.4.7).
 
 ## Frontend
 
@@ -87,13 +83,12 @@ npx prisma migrate dev
 npx prisma studio
 ```
 
-
-### Regras de git
+# Regras de git
 
 - Regras de commit: Os commits devem ser feitos de forma a dizer, inicialmente, qual é o propósito do commit (feat, docs, fix, test...)
 - Uso de branches: As branches são: develop e main. Após uma issue ser resolvida na develop, deve-se fazer o merge na main
 
-### Regras de boas práticas
+# Regras de boas práticas
 
 1.  Adoção de um padrão de notação de código: utilizar o padrão camelCase para variáveis, métodos e funções. Utilizar PascalCase para classes.
 2. Documentação e comentários no código: comentar o código sempre que a lógica for complexa ou não óbvia.
