@@ -33,7 +33,7 @@ Esse é o seu código de recuperação de senha para o Time2Play.
 
 Caso não tenha solicitado esse código, apenas ignore esse e-mail.
 
-Seu token de recuperação de senha é ${token}`,
+${token}`,
     });
     console.log("Email enviado com sucesso");
   } catch (err) {
