@@ -27,8 +27,13 @@ export const verifyUserEmail = async ({
     await transporter.sendMail({
       from: process.env.MAILER_USER,
       to: email,
-      subject: "Recuperação de senha para sua conta no Time2Play",
-      text: `Olá, ${nome}! Você solicitou a recuperação da sua senha para a sua conta no Time2Play. Caso não tenha solicitado, apenas ignore esse e-mail. Seu token de recuperação de senha é ${token}`,
+      subject: `${token} é seu código do Time2Play`,
+      text: `Olá, ${nome}!
+Esse é o seu código de recuperação de senha para o Time2Play.
+
+Caso não tenha solicitado esse código, apenas ignore esse e-mail.
+
+Seu token de recuperação de senha é ${token}`,
     });
     console.log("Email enviado com sucesso");
   } catch (err) {
