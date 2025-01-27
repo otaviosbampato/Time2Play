@@ -9,6 +9,7 @@ export default function RecuperaSenha() {
     const location = useLocation();
     const navigation = useNavigate();
     const email = location.state.email;
+    const codigo = location.state.codigo;
 
     const [senha, setSenha] = useState<string>();
     const [senhaConfirmada, setSenhaConfirmada] = useState<string>();
@@ -22,6 +23,7 @@ export default function RecuperaSenha() {
         try {
             const response = await Axios.post("auth/recuperarSenha", {
                 email,
+                token: codigo,
                 newPassword: senha
             });
 

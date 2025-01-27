@@ -6,11 +6,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Welcome from "./pages/Unsigned/Welcome/Welcome.tsx";
 import RecuperaSenha from "./pages/Unsigned/RecuperaSenha1/RecuperaSenha.tsx";
 import RecuperaSenhaCodigo from "./pages/Unsigned/RecuperaSenha2/RecuperaSenha2.tsx";
-import RecuperaNovaSenha from "./pages/Unsigned/RecuperarSenha3/RecuperaSenha3.tsx";
+import RecuperaNovaSenha from "./pages/Unsigned/RecuperaSenha3/RecuperaSenha3.tsx";
 
 // Rotas proprietário
 import AdicionarQuadra from "./pages/Signed/Proprietario/AdicionarQuadra/AdicionarQuadra.tsx";
-import ConfiguracoesProprietario from "./pages/Signed/Proprietario/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
+//import ConfiguracoesProprietario from "./pages/Signed/Proprietario/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
 import MinhasQuadras from "./pages/Signed/Proprietario/MinhasQuadras/MinhasQuadras.tsx";
 import VerReservas from "./pages/Signed/Proprietario/VerReservas/VerReservas.tsx";
 import EditarQuadra from "./pages/Signed/Proprietario/EditarQuadra/EditarQuadra.tsx";
