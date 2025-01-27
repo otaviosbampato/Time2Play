@@ -1,5 +1,9 @@
 import React from "react";
 import Header from "../../../../shared/components/HeaderCliente/Header";
+import Footer from "../../../../shared/components/Footer/Footer";
+
+import { useNavigate } from "react-router-dom";
+
 import styles from "./ConfiguracoesPerfil.module.css";
 
 import historico from "../../../../assets/historico.png";
@@ -21,8 +25,11 @@ const ConfiguracoesProprietario: React.FC<ConfiguracoesPerfilProps> = ({
   const [emailInput, setEmailInput] = React.useState(email);
   const [senhaInput, setSenhaInput] = React.useState(senha);
 
+  const navigator = useNavigate();
+
   const handleSalvar = () => {
     console.log("Salvo");
+    navigator("/minhasQuadras");
   };
 
   return (
@@ -87,7 +94,7 @@ const ConfiguracoesProprietario: React.FC<ConfiguracoesPerfilProps> = ({
               />
             </label>
             <div className={styles.buttonContainer}>
-              <button type="button" className={styles.saveButton}>
+              <button type="button" className={styles.saveButton} onClick={handleSalvar}>
                 Salvar
               </button>
               <button type="button" className={styles.cancelButton}>
@@ -96,6 +103,7 @@ const ConfiguracoesProprietario: React.FC<ConfiguracoesPerfilProps> = ({
             </div>
           </form>
         </main>
+        <Footer/>
       </div>
     </>
   );

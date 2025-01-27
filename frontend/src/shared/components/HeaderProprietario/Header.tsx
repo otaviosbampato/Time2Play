@@ -69,7 +69,7 @@ export default function Header({ currentTab }: HeaderProps) {
             </Link>
           </div>
           <div className="header-icons">
-            <Link to="/ConfiguracoesPerfilProprietario">
+            <Link to="/configuracoesProprietario">
               <img
                 src={engrenagem}
                 className="header-icon header-white-circle"

@@ -1,5 +1,6 @@
 import styles from "./CadastroProprietario.module.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Footer from "../../../../shared/components/Footer/Footer.tsx";
 import Axios from "../../../../shared/context/Axios.tsx";
@@ -11,6 +12,8 @@ export default function CadastroProprietario() {
     const [cidade, setCidade] = useState<string>();    
     const [cpfCnpj, setCpfCnpj] = useState<string>();    
     
+    const navigator = useNavigate();
+
     const registrar = async () => {
         try {
             const response = await Axios.post("/proprietario/registrar", {
@@ -18,6 +21,7 @@ export default function CadastroProprietario() {
             });
             window.alert("registrado com sucesso")
             console.log(response.data);
+            navigator("/");
         } catch (error) {   
             console.log("Erro");
         }
@@ -25,10 +29,6 @@ export default function CadastroProprietario() {
 
     return (
         <div className={styles.background}>
-
-            <div className={styles.logoContainer}>
-                <img src="src/assets/LOGOTRANSPARENTE.png" className={styles.logoTransparente} />
-            </div>
 
             <div className={styles.centralizer}>
 
@@ -53,7 +53,7 @@ export default function CadastroProprietario() {
                         <p>cadastrar</p>
                     </button>
                     <div className={styles.divisor}/>
-                    <a href="" className={styles.loginPrompt}>Já possui uma conta? Login</a>
+                    <a href="" className={styles.loginPrompt} onClick={() => navigator("/")}>Já possui uma conta? Login</a>
                 </div>
             </div>
             <Footer />
