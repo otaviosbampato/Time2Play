@@ -167,8 +167,8 @@ export const verificarToken = async (req: Request, res: Response) => {
     }
 
     const conta = cliente || proprietario;
-   
-    res.json({ conta, isAdm: isAdm} );
+
+    res.json({ conta, isAdm: isAdm });
   } catch (err) {
     console.error("Erro ao verificar token:", err);
     res.status(500).json({ error: "Erro ao verificar token" });
@@ -237,4 +237,48 @@ export const recuperarSenha = async (req: Request, res: Response) => {
     console.error("Erro ao atualizar senha:", err);
     res.status(500).json({ error: "Erro ao atualizar senha" });
   }
+};
+
+export const validarCodigo = async (req: Request, res: Response) => {
+  const { email, codigo } = req.body;
+
+  try {
+    const cliente = await prisma.cliente.findUnique({
+      where: { email },
+      select: {
+        idCliente: true,
+        passwordResetToken: true,
+        passwordResetTokenExpiration: true,
+      },
+    });
+
+    const proprietario = await prisma.proprietario.findUnique({
+      where: { email },
+      select: {
+        idProprietario: true,
+        passwordResetToken: true,
+        passwordResetTokenExpiration: true,
+      },
+    });
+
+    if (!cliente && !proprietario) {
+      return res.status(404).json({ error: "Usuário não encontrado" });
+    }
+
+    const conta = cliente || proprietario;
+
+    if (
+      codigo !== conta!.passwordResetToken ||
+      new Date() > (conta!.passwordResetTokenExpiration as Date)
+    ) {
+      return res.status(400).json({ error: "Token inválido ou expirado" });
+    }
+
+    res.json({ message: "Código validado!" });
+    
+  } catch (error) {
+    console.error("Erro ao validar código:", error);
+    res.status(500).json({ error: "Erro ao validar código" });
+  }
+  
 };

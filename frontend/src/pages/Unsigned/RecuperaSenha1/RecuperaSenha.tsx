@@ -40,7 +40,7 @@ export default function RecuperaSenha() {
             <img className={styles.lock} src="src/assets/lock.png"></img>
           </div>
           <input
-            type="email"
+            type="text"
             placeholder="insira o seu email"
             className={styles.input}
             onChange={(e) => setEmail(e.target.value)}
