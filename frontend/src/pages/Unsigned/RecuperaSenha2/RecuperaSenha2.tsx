@@ -17,14 +17,14 @@ export default function RecuperaSenha() {
             // Valida o código
             const response = await Axios.post("auth/validarCodigo", {
                 email,
-                token: codigo,
+                codigo: codigo,
             });
 
             console.log("Código validado com sucesso", response.data);
             window.alert("Código validado! Redirecionando...");
 
             // Redireciona para a página de redefinição de senha
-            navigation("/RecuperarSenha3", { state: { email, codigo } });
+            navigation("/recuperaNovaSenha", { state: { email, codigo } });
         } catch (error) {
             console.error("Erro ao validar código", error);
             window.alert("Código inválido ou expirado");
