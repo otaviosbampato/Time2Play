@@ -122,13 +122,16 @@ function Welcome() {
   return (
     <div className="background">
       <div className="metadeEsquerda">
-        <img src="src/assets/logo-README.png" className="logo" />
+        <div className="logoDiv">
+          <img src="src/assets/logo-README.png" className="logo" />
+        </div>
         <div
           style={{
-            display: "flex",
-            justifySelf: "center",
             flexDirection: "column",
             marginTop: "3%",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
           }}
         >
           <h1 className="title">Procurando uma quadra?</h1>

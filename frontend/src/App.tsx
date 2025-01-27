@@ -10,7 +10,9 @@ import RecuperaNovaSenha from "./pages/Unsigned/RecuperaSenha3/RecuperaSenha3.ts
 
 // Rotas proprietário
 import AdicionarQuadra from "./pages/Signed/Proprietario/AdicionarQuadra/AdicionarQuadra.tsx";
-//import ConfiguracoesProprietario from "./pages/Signed/Proprietario/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
+
+import ConfiguracoesProprietario from "./pages/Signed/Proprietario/ConfiguracoesPerfil/ConfiguracoesPerfil.tsx";
+
 import MinhasQuadras from "./pages/Signed/Proprietario/MinhasQuadras/MinhasQuadras.tsx";
 import VerReservas from "./pages/Signed/Proprietario/VerReservas/VerReservas.tsx";
 import EditarQuadra from "./pages/Signed/Proprietario/EditarQuadra/EditarQuadra.tsx";
@@ -49,7 +51,9 @@ function App() {
             <Route path="/editarQuadra" element={<EditarQuadra />}></Route>
             <Route path="/minhasQuadras" element={<MinhasQuadras />}></Route>
             <Route path="/verReservas" element={<VerReservas/>}></Route>
-            {/* <Route path="/configuracoesProprietario" element={<ConfiguracoesProprietario email="otavio@email.com" nome="otavio" senha="minhaSenha"/>}></Route> */}
+
+            <Route path="/configuracoesProprietario" element={<ConfiguracoesProprietario email="otavio@email.com" nome="otavio" senha="minhaSenha"/>}></Route>
+
           </Route>
           
           {/* Rotas do cliente */}
