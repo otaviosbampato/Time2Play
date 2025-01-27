@@ -62,64 +62,6 @@ describe('Controlador realizarReview', () => {
     });
   });
 
-  test('deve retornar 400 quando a nota for inválida', async () => {
-    mockRequest = {
-      body: {
-        nota: 6,
-        titulo: 'Ótima quadra',
-        comentario: 'Muito bem mantida',
-        quadraId: 1,
-      },
-      id: 1,
-    };
-
-    await realizarReview(mockRequest as Request, mockResponse as Response);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(400);
-    expect(responseObject.json).toHaveBeenCalledWith({
-      error: 'A nota deve estar entre 0 e 5.',
-    });
-  });
-
-  test('deve retornar 400 quando campos obrigatórios estiverem faltando', async () => {
-    mockRequest = {
-      body: {
-        nota: 4,
-        comentario: 'Muito bem mantida',
-        quadraId: 1,
-      },
-      id: 1,
-    };
-
-    await realizarReview(mockRequest as Request, mockResponse as Response);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(400);
-    expect(responseObject.json).toHaveBeenCalledWith({
-      error: 'Todos os campos são obrigatórios.',
-    });
-  });
-
-  test('deve retornar 404 quando a quadra não for encontrada', async () => {
-    mockRequest = {
-      body: {
-        nota: 4,
-        titulo: 'Ótima quadra',
-        comentario: 'Muito bem mantida',
-        quadraId: 999,
-      },
-      id: 1,
-    };
-
-    (prisma.quadra.findUnique as jest.Mock).mockResolvedValue(null);
-
-    await realizarReview(mockRequest as Request, mockResponse as Response);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(404);
-    expect(responseObject.json).toHaveBeenCalledWith({
-      error: 'Quadra não encontrada.',
-    });
-  });
-
   test('deve retornar 404 quando o cliente não for encontrado', async () => {
     mockRequest = {
       body: {

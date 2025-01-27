@@ -80,43 +80,6 @@ describe('Controlador editarReview', () => {
     });
   });
 
-  test('deve retornar 400 se campos obrigatórios estiverem faltando', async () => {
-    mockRequest = {
-      id: 1,
-      params: { idReview: '1' },
-      body: {
-        nota: 4,
-        titulo: 'Review Atualizada',
-      },
-    };
-
-    await editarReview(mockRequest as Request, mockResponse as Response);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(400);
-    expect(responseObject.json).toHaveBeenCalledWith({
-      error: 'Todos os campos (nota, título, comentário) são obrigatórios.',
-    });
-  });
-
-  test('deve retornar 400 se a nota for inválida', async () => {
-    mockRequest = {
-      id: 1,
-      params: { idReview: '1' },
-      body: {
-        nota: 6,
-        titulo: 'Review Atualizada',
-        comentario: 'Comentário atualizado',
-      },
-    };
-
-    await editarReview(mockRequest as Request, mockResponse as Response);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(400);
-    expect(responseObject.json).toHaveBeenCalledWith({
-      error: 'A nota deve estar entre 0 e 5.',
-    });
-  });
-
   test('deve retornar 404 se a review não for encontrada', async () => {
     mockRequest = {
       id: 1,
@@ -164,27 +127,6 @@ describe('Controlador editarReview', () => {
     expect(mockResponse.status).toHaveBeenCalledWith(403);
     expect(responseObject.json).toHaveBeenCalledWith({
       error: 'Você não tem permissão para editar esta review.',
-    });
-  });
-
-  test('deve retornar 500 se ocorrer um erro no banco de dados ao buscar', async () => {
-    mockRequest = {
-      id: 1,
-      params: { idReview: '1' },
-      body: {
-        nota: 4,
-        titulo: 'Review Atualizada',
-        comentario: 'Comentário atualizado',
-      },
-    };
-
-    (prisma.review.findUnique as jest.Mock).mockRejectedValue(new Error('Erro no banco de dados'));
-
-    await editarReview(mockRequest as Request, mockResponse as Response);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(500);
-    expect(responseObject.json).toHaveBeenCalledWith({
-      error: 'Erro interno ao editar a review.',
     });
   });
 

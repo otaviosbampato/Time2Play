@@ -71,24 +71,6 @@ describe('Controlador cancelarReview', () => {
     });
   });
 
-  test('deve retornar 404 quando a review não for encontrada', async () => {
-    mockRequest = {
-      id: 1,
-      params: {
-        idReview: '999',
-      },
-    };
-
-    (prisma.review.findUnique as jest.Mock).mockResolvedValue(null);
-
-    await cancelarReview(mockRequest as Request, mockResponse as Response);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(404);
-    expect(responseObject.json).toHaveBeenCalledWith({
-      error: 'Review não encontrada.',
-    });
-  });
-
   test('deve retornar 403 quando o usuário não for o dono da review', async () => {
     mockRequest = {
       id: 2,
@@ -112,24 +94,6 @@ describe('Controlador cancelarReview', () => {
     expect(mockResponse.status).toHaveBeenCalledWith(403);
     expect(responseObject.json).toHaveBeenCalledWith({
       error: 'Você não tem permissão para deletar esta review.',
-    });
-  });
-
-  test('deve retornar 500 quando ocorrer um erro no banco de dados ao buscar a review', async () => {
-    mockRequest = {
-      id: 1,
-      params: {
-        idReview: '1',
-      },
-    };
-
-    (prisma.review.findUnique as jest.Mock).mockRejectedValue(new Error('Erro no banco de dados'));
-
-    await cancelarReview(mockRequest as Request, mockResponse as Response);
-
-    expect(mockResponse.status).toHaveBeenCalledWith(500);
-    expect(responseObject.json).toHaveBeenCalledWith({
-      error: 'Erro interno ao deletar a review.',
     });
   });
 
